@@ -34,4 +34,12 @@ public class MotoService {
         }
         return null;
     }
+
+    public String deletar(Long id) {
+        if(repository.existsById(id)) {
+            repository.deleteById(id);
+            return "Deletado com sucesso!";
+        }
+        return null;
+    }
 }
