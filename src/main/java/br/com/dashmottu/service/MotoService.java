@@ -5,6 +5,7 @@ import br.com.dashmottu.repository.MotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,5 +20,18 @@ public class MotoService {
 
     public Moto obterPorId(Long id) {
         return repository.findById(id).orElse(null);
+    }
+
+    public Moto salvar(Moto moto) {
+        moto.setUltimaModificacao(new Date());
+        return repository.save(moto);
+    }
+
+    public Moto editar(Long id, Moto moto) {
+        if(repository.existsById(id)) {
+            moto.setId(id);
+            repository.save(moto);
+        }
+        return null;
     }
 }

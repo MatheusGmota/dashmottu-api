@@ -4,14 +4,9 @@ import br.com.dashmottu.model.entities.Moto;
 import br.com.dashmottu.service.MotoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/moto")
@@ -32,4 +27,18 @@ public class MotoController {
         if (moto != null) return ResponseEntity.ok(moto);
         else return ResponseEntity.status(404).body("Objeto não existe");
     }
+
+    @PostMapping()
+    public ResponseEntity<Object> post(@RequestBody Moto moto) {
+        Moto salvar = service.salvar(moto);
+        return ResponseEntity.ok(salvar);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> put(@PathVariable Long id, @RequestBody Moto moto) {
+        Moto editar = service.editar(id, moto);
+        if(editar != null) return ResponseEntity.ok(editar);
+        else return ResponseEntity.status(404).body("Não foi possível atualizar");
+    }
+
 }
