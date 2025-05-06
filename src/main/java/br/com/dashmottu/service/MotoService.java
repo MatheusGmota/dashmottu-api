@@ -14,4 +14,8 @@ public class MotoService {
     public List<Moto> listarTodos() {
         return repository.findAll();
     }
+
+    public Moto obterPorId(Long id) {
+        return repository.findById(id).orElse(null);
+    }
 }
