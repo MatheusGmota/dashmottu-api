@@ -29,7 +29,7 @@ public class MotoService {
     public Moto editar(Long id, Moto moto) {
         if(repository.existsById(id)) {
             moto.setId(id);
-            repository.save(moto);
+            return repository.save(moto);
         }
         return null;
     }

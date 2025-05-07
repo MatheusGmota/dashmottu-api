@@ -31,7 +31,7 @@ public class MotoController {
     @PostMapping()
     public ResponseEntity<Object> post(@RequestBody Moto moto) {
         Moto salvar = service.salvar(moto);
-        return ResponseEntity.ok(salvar);
+        return ResponseEntity.status(201).body(salvar);
     }
 
     @PutMapping("/{id}")
