@@ -23,7 +23,6 @@ public class MotoService {
     }
 
     public Moto salvar(Moto moto) {
-        moto.setUltimaModificacao(new Date());
         return repository.save(moto);
     }
 

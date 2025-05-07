@@ -16,7 +16,7 @@ public class Moto {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "moto")
     private Long id;
 
-    @Column(name = "cod_tag", nullable = false, length = 50)
+    @Column(name = "cod_tag", nullable = false, length = 50, unique = true)
     private String codTag;
 
     @Enumerated(EnumType.STRING)
@@ -30,18 +30,21 @@ public class Moto {
     @Column(name = "status", nullable = false)
     private StatusMoto status;
 
-    // atributo com localizacao (classe externa)
+    @ManyToOne
+    @JoinColumn(name = "id_patio")
+    private Patio patio;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date ultimaModificacao;
+    @OneToOne
+    @JoinColumn(name = "id_loc")
+    private Localizacao localizacao;
 
     public Moto() {};
 
-    public Moto(Date ultimaModificacao, String placa, StatusMoto status, ModeloMoto modelo) {
-        this.ultimaModificacao = ultimaModificacao;
+    public Moto(String codTag, ModeloMoto modelo, String placa, StatusMoto status) {
+        this.codTag = codTag;
+        this.modelo = modelo;
         this.placa = placa;
         this.status = status;
-        this.modelo = modelo;
     }
 
     public Long getId() {
@@ -82,13 +85,5 @@ public class Moto {
 
     public void setStatus(StatusMoto status) {
         this.status = status;
-    }
-
-    public Date getUltimaModificacao() {
-        return ultimaModificacao;
-    }
-
-    public void setUltimaModificacao(Date ultimaModificacao) {
-        this.ultimaModificacao = ultimaModificacao;
     }
 }
