@@ -22,4 +22,41 @@ public class Patio {
 
     @OneToMany(mappedBy = "patio")
     private List<Moto> motos;
+
+    public Patio(Endereco endereco, String imagemPlantaUrl) {
+        this.endereco = endereco;
+        this.imagemPlantaUrl = imagemPlantaUrl;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getImagemPlantaUrl() {
+        return imagemPlantaUrl;
+    }
+
+    public void setImagemPlantaUrl(String imagemPlantaUrl) {
+        this.imagemPlantaUrl = imagemPlantaUrl;
+    }
+
+    public List<Moto> getMotos() {
+        return motos;
+    }
+
+    public void setMotos(List<Moto> motos) {
+        this.motos = motos;
+    }
 }
