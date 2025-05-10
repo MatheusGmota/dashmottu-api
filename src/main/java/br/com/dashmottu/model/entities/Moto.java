@@ -2,9 +2,8 @@ package br.com.dashmottu.model.entities;
 
 import br.com.dashmottu.model.enums.ModeloMoto;
 import br.com.dashmottu.model.enums.StatusMoto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-
-import java.util.Date;
 
 @Entity
 @Table(name = "TB_MOTO")
@@ -32,6 +31,7 @@ public class Moto {
 
     @ManyToOne
     @JoinColumn(name = "id_patio")
+    @JsonIgnore
     private Patio patio;
 
     @OneToOne
@@ -45,6 +45,22 @@ public class Moto {
         this.modelo = modelo;
         this.placa = placa;
         this.status = status;
+    }
+
+    public Patio getPatio() {
+        return patio;
+    }
+
+    public void setPatio(Patio patio) {
+        this.patio = patio;
+    }
+
+    public Localizacao getLocalizacao() {
+        return localizacao;
+    }
+
+    public void setLocalizacao(Localizacao localizacao) {
+        this.localizacao = localizacao;
     }
 
     public Long getId() {
