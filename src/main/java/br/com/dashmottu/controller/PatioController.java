@@ -50,7 +50,7 @@ public class PatioController {
         else return ResponseEntity.status(404).body("Não foi possível atualizar");
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
         String resposta = service.deletar(id);
         if(resposta != null) return ResponseEntity.ok(resposta);
