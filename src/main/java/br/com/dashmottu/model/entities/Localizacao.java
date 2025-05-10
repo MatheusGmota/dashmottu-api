@@ -24,6 +24,8 @@ public class Localizacao {
     @OneToOne(mappedBy = "localizacao")
     private Moto moto;
 
+    public Localizacao() {};
+
     public Localizacao(Double posicaoy, Double posicaoX) {
         this.posicaoy = posicaoy;
         this.posicaoX = posicaoX;
