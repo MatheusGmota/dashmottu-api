@@ -2,6 +2,8 @@ package br.com.dashmottu.service;
 
 import br.com.dashmottu.model.entities.Moto;
 import br.com.dashmottu.model.entities.Patio;
+import br.com.dashmottu.repository.EnderecoRepository;
+import br.com.dashmottu.repository.MotoRepository;
 import br.com.dashmottu.repository.PatioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,12 @@ public class PatioService {
     @Autowired
     private PatioRepository repository;
 
+    @Autowired
+    private EnderecoRepository enderecoRepository;
+
+    @Autowired
+    private MotoRepository motoRepository;
+
     public List<Patio> listarTodos() {
         return repository.findAll();
     }
@@ -23,7 +31,21 @@ public class PatioService {
     }
 
     public Patio salvar(Patio patio) {
+        enderecoRepository.save(patio.getEndereco());
         return repository.save(patio);
+    }
+
+    public Object salvarMoto(Long id, Long idMoto) {
+        if (repository.existsById(id) && motoRepository.existsById(idMoto)) {
+            Patio patio = repository.findById(id).orElse(null);
+            Moto moto = motoRepository.findById(idMoto).orElse(null);
+            if (patio != null && moto != null) {
+                patio.addMoto(moto); //adicionando moto no contexto da lista do patio
+                motoRepository.save(moto);
+                return repository.save(patio); // atualizando tabelas
+            }
+        }
+        return null;
     }
 
     public Patio editar(Long id, Patio patio) {
