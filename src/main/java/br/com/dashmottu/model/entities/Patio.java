@@ -1,6 +1,8 @@
 package br.com.dashmottu.model.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -23,9 +25,16 @@ public class Patio {
     @OneToMany(mappedBy = "patio")
     private List<Moto> motos;
 
+    public Patio() {}
+
     public Patio(Endereco endereco, String imagemPlantaUrl) {
         this.endereco = endereco;
         this.imagemPlantaUrl = imagemPlantaUrl;
+    }
+
+    public void addMoto(Moto moto) {
+        moto.setPatio(this);
+        this.motos.add(moto);
     }
 
     public Long getId() {
