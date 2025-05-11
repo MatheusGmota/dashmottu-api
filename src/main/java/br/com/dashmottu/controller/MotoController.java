@@ -1,5 +1,6 @@
 package br.com.dashmottu.controller;
 
+import br.com.dashmottu.model.entities.Localizacao;
 import br.com.dashmottu.model.entities.Moto;
 import br.com.dashmottu.service.MotoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,13 @@ public class MotoController {
     public ResponseEntity<Object> post(@RequestBody Moto moto) {
         Moto salvar = service.salvar(moto);
         return ResponseEntity.status(201).body(salvar);
+    }
+
+    @PutMapping()
+    public ResponseEntity<Object> putLocalMoto(@RequestParam String codTag, @RequestBody Localizacao localizacao) {
+        Moto moto = service.salvarLocalizacao(codTag, localizacao);
+        if (moto != null) return ResponseEntity.ok(moto);
+        else return ResponseEntity.status(404).body("Não foi possível atualizar");
     }
 
     @PutMapping("/{id}")

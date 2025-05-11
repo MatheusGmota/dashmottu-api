@@ -29,12 +29,12 @@ public class Moto {
     @Column(name = "status", nullable = false)
     private StatusMoto status;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_patio")
-    @JsonIgnore
     private Patio patio;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_loc")
     private Localizacao localizacao;
 
@@ -45,22 +45,6 @@ public class Moto {
         this.modelo = modelo;
         this.placa = placa;
         this.status = status;
-    }
-
-    public Patio getPatio() {
-        return patio;
-    }
-
-    public void setPatio(Patio patio) {
-        this.patio = patio;
-    }
-
-    public Localizacao getLocalizacao() {
-        return localizacao;
-    }
-
-    public void setLocalizacao(Localizacao localizacao) {
-        this.localizacao = localizacao;
     }
 
     public Long getId() {
@@ -101,5 +85,21 @@ public class Moto {
 
     public void setStatus(StatusMoto status) {
         this.status = status;
+    }
+
+    public Patio getPatio() {
+        return patio;
+    }
+
+    public void setPatio(Patio patio) {
+        this.patio = patio;
+    }
+
+    public Localizacao getLocalizacao() {
+        return localizacao;
+    }
+
+    public void setLocalizacao(Localizacao localizacao) {
+        this.localizacao = localizacao;
     }
 }
