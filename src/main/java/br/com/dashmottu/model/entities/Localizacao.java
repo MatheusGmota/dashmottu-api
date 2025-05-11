@@ -1,42 +1,38 @@
 package br.com.dashmottu.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
 @Table(name = "tb_localizacao")
+@SequenceGenerator(name = "localizacao", sequenceName = "SQ_TB_LOCALIZACAO",allocationSize = 1)
 public class Localizacao {
 
     @Id
     @Column(name = "id_loc")
+    @GeneratedValue(generator = "local", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "posicao_x", precision = 6)
     private Double posicaoX;
 
     @Column(name = "posicao_y", precision = 6)
-    private Double posicaoy;
+    private Double posicaoY;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date ultimaModificacao;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "localizacao")
     private Moto moto;
 
     public Localizacao() {};
 
     public Localizacao(Double posicaoy, Double posicaoX) {
-        this.posicaoy = posicaoy;
+        this.posicaoY = posicaoy;
         this.posicaoX = posicaoX;
-    }
-
-    public Date getUltimaModificacao() {
-        return ultimaModificacao;
-    }
-
-    public void setUltimaModificacao(Date ultimaModificacao) {
-        this.ultimaModificacao = ultimaModificacao;
     }
 
     public Long getId() {
@@ -55,12 +51,20 @@ public class Localizacao {
         this.posicaoX = posicaoX;
     }
 
-    public Double getPosicaoy() {
-        return posicaoy;
+    public Double getPosicaoY() {
+        return posicaoY;
     }
 
-    public void setPosicaoy(Double posicaoy) {
-        this.posicaoy = posicaoy;
+    public void setPosicaoY(Double posicaoY) {
+        this.posicaoY = posicaoY;
+    }
+
+    public Date getUltimaModificacao() {
+        return ultimaModificacao;
+    }
+
+    public void setUltimaModificacao(Date ultimaModificacao) {
+        this.ultimaModificacao = ultimaModificacao;
     }
 
     public Moto getMoto() {
