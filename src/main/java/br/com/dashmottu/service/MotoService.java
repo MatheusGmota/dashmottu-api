@@ -1,5 +1,6 @@
 package br.com.dashmottu.service;
 
+import br.com.dashmottu.model.dto.MotoRequestDTO;
 import br.com.dashmottu.model.entities.Localizacao;
 import br.com.dashmottu.model.entities.Moto;
 import br.com.dashmottu.repository.LocalizacaoRepository;
@@ -42,7 +43,8 @@ public class MotoService {
         return null;
     }
 
-    public Moto salvar(Moto moto) {
+    public Moto salvar(MotoRequestDTO motoDTO) {
+        Moto moto = new Moto(motoDTO.getCodTag(), motoDTO.getModelo(), motoDTO.getPlaca(), motoDTO.getStatus());
         return repository.save(moto);
     }
 

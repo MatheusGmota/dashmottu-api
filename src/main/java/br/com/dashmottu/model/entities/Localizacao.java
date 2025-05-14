@@ -2,6 +2,7 @@ package br.com.dashmottu.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
@@ -16,9 +17,11 @@ public class Localizacao {
     private Long id;
 
     @Column(name = "posicao_x", precision = 6)
+    @NotNull(message = "A posicao_x é obrigatória")
     private Double posicaoX;
 
     @Column(name = "posicao_y", precision = 6)
+    @NotNull(message = "A posicao_y é obrigatória")
     private Double posicaoY;
 
     @Temporal(TemporalType.TIMESTAMP)
