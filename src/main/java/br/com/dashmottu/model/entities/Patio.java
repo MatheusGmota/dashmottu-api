@@ -20,6 +20,8 @@ public class Patio {
     @JoinColumn(name="id_endereco")
     private Endereco endereco;
 
+    @NotBlank(message = "A imagem é obrigatória")
+    @Size(min=3, max=100, message = "A url da imagem tem que ter entre 3 a 100 caracteres")
     private String imagemPlantaUrl;
 
     @OneToMany(mappedBy = "patio")

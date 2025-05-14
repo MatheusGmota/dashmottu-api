@@ -41,14 +41,6 @@ public class Endereco {
         this.cep = cep;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getLogradouro() {
         return logradouro;
     }
