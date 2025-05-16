@@ -13,7 +13,7 @@ public class Localizacao {
 
     @Id
     @Column(name = "id_loc")
-    @GeneratedValue(generator = "local", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "localizacao", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "posicao_x", precision = 6)
