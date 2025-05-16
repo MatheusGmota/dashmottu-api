@@ -31,7 +31,7 @@ public class PatioController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> post(@RequestBody Patio patio) {
+    public ResponseEntity<Object> post(@Valid @RequestBody Patio patio) {
         Patio salvar = service.salvar(patio);
         return ResponseEntity.status(201).body(salvar);
     }
@@ -44,7 +44,7 @@ public class PatioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> put(@PathVariable Long id, @RequestBody Patio patio) {
+    public ResponseEntity<Object> put(@PathVariable Long id, @Valid @RequestBody Patio patio) {
         Patio editar = service.editar(id, patio);
         if(editar != null) return ResponseEntity.ok(editar);
         else return ResponseEntity.status(404).body("Não foi possível atualizar");
