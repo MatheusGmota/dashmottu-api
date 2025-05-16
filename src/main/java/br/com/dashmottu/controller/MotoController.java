@@ -34,14 +34,19 @@ public class MotoController {
 
     @PostMapping()
     public ResponseEntity<Object> post(@Valid @RequestBody MotoRequestDTO motoDTO) {
-        Moto moto = service.salvar(motoDTO);
-        return ResponseEntity.status(201)
-                .body(new MotoResponseDTO(moto.getId(),
-                        moto.getCodTag(),
-                        moto.getModelo(),
-                        moto.getPlaca(),
-                        moto.getStatus())
-                );
+        try {
+            Moto moto = service.salvar(motoDTO);
+            return ResponseEntity.status(201)
+                    .body(new MotoResponseDTO(moto.getId(),
+                            moto.getCodTag(),
+                            moto.getModelo(),
+                            moto.getPlaca(),
+                            moto.getStatus())
+                    );
+        } catch (Exception e) {
+            if (e.getMessage().contains("ORA-00001")) return ResponseEntity.status(404).body("Moto já cadastrada.");
+            else return ResponseEntity.internalServerError().body("Internal Server Error");
+        }
     }
 
     @PutMapping()
