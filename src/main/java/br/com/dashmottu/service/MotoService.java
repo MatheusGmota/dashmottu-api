@@ -37,8 +37,8 @@ public class MotoService {
         if (moto != null) {
             moto.setLocalizacao(localizacao);
             localizacao.setUltimaModificacao(new Date());
-            localizacaoRepository.save(localizacao);
-            return repository.save(moto);
+            localizacaoRepository.saveAndFlush(localizacao);
+            return repository.saveAndFlush(moto);
         }
         return null;
     }
@@ -51,7 +51,7 @@ public class MotoService {
     public Moto editar(Long id, Moto moto) {
         if(repository.existsById(id)) {
             moto.setId(id);
-            return repository.save(moto);
+            return repository.saveAndFlush(moto);
         }
         return null;
     }

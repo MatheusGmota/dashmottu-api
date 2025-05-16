@@ -41,8 +41,8 @@ public class PatioService {
             Moto moto = motoRepository.findById(idMoto).orElse(null);
             if (patio != null && moto != null) {
                 patio.addMoto(moto); //adicionando moto no contexto da lista do patio
-                motoRepository.save(moto);
-                return repository.save(patio); // atualizando tabelas
+                motoRepository.saveAndFlush(moto);
+                return repository.saveAndFlush(patio); // atualizando tabelas
             }
         }
         return null;
@@ -51,7 +51,8 @@ public class PatioService {
     public Patio editar(Long id, Patio patio) {
         if(repository.existsById(id)) {
             patio.setId(id);
-            return repository.save(patio);
+            enderecoRepository.saveAndFlush(patio.getEndereco());
+            return repository.saveAndFlush(patio);
         }
         return null;
     }
