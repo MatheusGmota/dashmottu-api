@@ -1,8 +1,8 @@
 package br.com.dashmottu.controller;
 
+import br.com.dashmottu.model.dto.LocalizacaoDTO;
 import br.com.dashmottu.model.dto.MotoRequestDTO;
 import br.com.dashmottu.model.dto.MotoResponseDTO;
-import br.com.dashmottu.model.entities.Localizacao;
 import br.com.dashmottu.model.entities.Moto;
 import br.com.dashmottu.service.MotoService;
 import jakarta.validation.Valid;
@@ -50,15 +50,15 @@ public class MotoController {
     }
 
     @PutMapping()
-    public ResponseEntity<Object> putLocalMoto(@RequestParam String codTag, @Valid @RequestBody Localizacao localizacao) {
-        Moto moto = service.salvarLocalizacao(codTag, localizacao);
+    public ResponseEntity<Object> putLocalMoto(@RequestParam String codTag, @Valid @RequestBody LocalizacaoDTO localizacaoDTO) {
+        Moto moto = service.salvarLocalizacao(codTag, localizacaoDTO);
         if (moto != null) return ResponseEntity.ok(moto);
         else return ResponseEntity.status(404).body("Não foi possível atualizar");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> put(@PathVariable Long id, @Valid @RequestBody Moto moto) {
-        Moto editar = service.editar(id, moto);
+    public ResponseEntity<Object> put(@PathVariable Long id, @Valid @RequestBody MotoRequestDTO motoRequestDTO) {
+        Moto editar = service.editar(id, motoRequestDTO);
         if(editar != null) return ResponseEntity.ok(editar);
         else return ResponseEntity.status(404).body("Não foi possível atualizar");
     }

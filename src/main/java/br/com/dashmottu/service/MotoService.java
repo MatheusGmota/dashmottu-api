@@ -1,5 +1,6 @@
 package br.com.dashmottu.service;
 
+import br.com.dashmottu.model.dto.LocalizacaoDTO;
 import br.com.dashmottu.model.dto.MotoRequestDTO;
 import br.com.dashmottu.model.entities.Localizacao;
 import br.com.dashmottu.model.entities.Moto;
@@ -32,11 +33,12 @@ public class MotoService {
         return repository.findByCodTag(codTag);
     }
 
-    public Moto salvarLocalizacao(String codTag, Localizacao localizacao) {
+    public Moto salvarLocalizacao(String codTag, LocalizacaoDTO localizacaoDTO) {
+        Localizacao localizacao = new Localizacao(localizacaoDTO.getPosicaoX(), localizacaoDTO.getPosicaoY());
         Moto moto = obterPorTag(codTag);
         if (moto != null) {
             moto.setLocalizacao(localizacao);
-            localizacao.setUltimaModificacao(new Date());
+            localizacao.setUltimaModificacao( new Date());
             localizacaoRepository.saveAndFlush(localizacao);
             return repository.saveAndFlush(moto);
         }
@@ -48,9 +50,12 @@ public class MotoService {
         return repository.save(moto);
     }
 
-    public Moto editar(Long id, Moto moto) {
-        if(repository.existsById(id)) {
+    public Moto editar(Long id, MotoRequestDTO motoRequestDTO) {
+        Moto byId = repository.findById(id).orElse(null);
+        if(byId != null) {
+            Moto moto = new Moto(motoRequestDTO.getCodTag(), motoRequestDTO.getModelo(),motoRequestDTO.getPlaca(),motoRequestDTO.getStatus());
             moto.setId(id);
+            moto.setLocalizacao(byId.getLocalizacao());
             return repository.saveAndFlush(moto);
         }
         return null;

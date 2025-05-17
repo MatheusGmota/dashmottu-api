@@ -17,11 +17,9 @@ public class Localizacao {
     private Long id;
 
     @Column(name = "posicao_x", precision = 6)
-    @NotNull(message = "A posicao_x é obrigatória")
     private Double posicaoX;
 
     @Column(name = "posicao_y", precision = 6)
-    @NotNull(message = "A posicao_y é obrigatória")
     private Double posicaoY;
 
     @Temporal(TemporalType.TIMESTAMP)

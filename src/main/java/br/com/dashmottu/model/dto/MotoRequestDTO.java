@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
 
 public class MotoRequestDTO {;
 
+    private Long id;
+
     @NotBlank(message = "O código da tag é obrigatório")
     @Size(min = 6, max = 10, message = "O código da tag deve ter entre 6 a 10 caracteres")
     private String codTag;
@@ -22,11 +24,22 @@ public class MotoRequestDTO {;
     @NotNull
     private StatusMoto status;
 
+    public MotoRequestDTO() {
+    }
+
     public MotoRequestDTO(String codTag, ModeloMoto modelo, String placa, StatusMoto status) {
         this.codTag = codTag;
         this.modelo = modelo;
         this.placa = placa;
         this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCodTag() {
