@@ -1,5 +1,7 @@
 package br.com.dashmottu.service;
 
+import br.com.dashmottu.model.dto.PatioDTO;
+import br.com.dashmottu.model.entities.Endereco;
 import br.com.dashmottu.model.entities.Moto;
 import br.com.dashmottu.model.entities.Patio;
 import br.com.dashmottu.repository.EnderecoRepository;
@@ -30,8 +32,10 @@ public class PatioService {
         return repository.findById(id).orElse(null);
     }
 
-    public Patio salvar(Patio patio) {
-        enderecoRepository.save(patio.getEndereco());
+    public Patio salvar(PatioDTO patioDTO) {
+        Endereco endereco = new Endereco(patioDTO.getEndereco());
+        Patio patio = new Patio(endereco, patioDTO.getImagemPlantaUrl());
+        enderecoRepository.save(endereco);
         return repository.save(patio);
     }
 
@@ -48,9 +52,12 @@ public class PatioService {
         return null;
     }
 
-    public Patio editar(Long id, Patio patio) {
-        if(repository.existsById(id)) {
+    public Patio editar(Long id, PatioDTO patioDTO) {
+        Patio byId = repository.findById(id).orElse(null);
+        if(byId != null) {
+            Patio patio = new Patio(new Endereco(patioDTO.getEndereco()), patioDTO.getImagemPlantaUrl());
             patio.setId(id);
+            patio.setMotos(byId.getMotos());
             enderecoRepository.saveAndFlush(patio.getEndereco());
             return repository.saveAndFlush(patio);
         }

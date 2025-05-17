@@ -1,8 +1,6 @@
 package br.com.dashmottu.model.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
 import java.util.List;
 
@@ -16,15 +14,13 @@ public class Patio {
     @GeneratedValue(generator = "patio", strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name="id_endereco")
-    private Endereco endereco;
-
-    @NotBlank(message = "A imagem é obrigatória")
-    @Size(min=3, max=100, message = "A url da imagem tem que ter entre 3 a 100 caracteres")
     private String imagemPlantaUrl;
 
-    @OneToMany(mappedBy = "patio")
+    @OneToOne
+    @JoinColumn(name="id_endereco", unique = true)
+    private Endereco endereco;
+
+    @OneToMany(mappedBy = "patio", cascade = CascadeType.ALL)
     private List<Moto> motos;
 
     public Patio() {}

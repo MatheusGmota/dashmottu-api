@@ -1,5 +1,6 @@
 package br.com.dashmottu.model.entities;
 
+import br.com.dashmottu.model.dto.EnderecoDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -30,7 +31,17 @@ public class Endereco {
     @Column(name = "cep", nullable = false, length = 9)
     private String cep;
 
-    public Endereco() {}
+    public Endereco() {
+    }
+
+    public Endereco(EnderecoDTO dto) {
+        this.logradouro = dto.getLogradouro();
+        this.numero = dto.getNumero();
+        this.bairro = dto.getBairro();
+        this.cidade = dto.getCidade();
+        this.estado = dto.getEstado();
+        this.cep = dto.getCep();
+    }
 
     public Endereco(String logradouro, Integer numero, String bairro, String cidade, String estado, String cep) {
         this.logradouro = logradouro;
@@ -39,14 +50,6 @@ public class Endereco {
         this.cidade = cidade;
         this.estado = estado;
         this.cep = cep;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getLogradouro() {

@@ -1,5 +1,6 @@
 package br.com.dashmottu.controller;
 
+import br.com.dashmottu.model.dto.PatioDTO;
 import br.com.dashmottu.model.entities.Patio;
 import br.com.dashmottu.service.PatioService;
 import jakarta.validation.Valid;
@@ -31,8 +32,8 @@ public class PatioController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> post(@Valid @RequestBody Patio patio) {
-        Patio salvar = service.salvar(patio);
+    public ResponseEntity<Object> post(@Valid @RequestBody PatioDTO patioDTO) {
+        Patio salvar = service.salvar(patioDTO);
         return ResponseEntity.status(201).body(salvar);
     }
 
@@ -44,8 +45,8 @@ public class PatioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> put(@PathVariable Long id, @Valid @RequestBody Patio patio) {
-        Patio editar = service.editar(id, patio);
+    public ResponseEntity<Object> put(@PathVariable Long id, @Valid @RequestBody PatioDTO patioDTO) {
+        Patio editar = service.editar(id, patioDTO);
         if(editar != null) return ResponseEntity.ok(editar);
         else return ResponseEntity.status(404).body("Não foi possível atualizar");
     }
