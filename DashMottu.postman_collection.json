@@ -7,147 +7,269 @@
 	},
 	"item": [
 		{
-			"name": "Obter todos",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{dashmottu}}/moto",
-					"host": [
-						"{{dashmottu}}"
-					],
-					"path": [
-						"moto"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "obter patio",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{dashmottu}}/patio",
-					"host": [
-						"{{dashmottu}}"
-					],
-					"path": [
-						"patio"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "patio / salvar moto",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{dashmottu}}/patio/1/motos?id=1",
-					"host": [
-						"{{dashmottu}}"
-					],
-					"path": [
-						"patio",
-						"1",
-						"motos"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "1"
+			"name": "Patio",
+			"item": [
+				{
+					"name": "Obter todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dashmottu}}/patio",
+							"host": [
+								"{{dashmottu}}"
+							],
+							"path": [
+								"patio"
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "moto / salvar",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"codTag\": \"x1y2z3w\",\r\n    \"modelo\": \"MOTO_E\",\r\n    \"placa\": \"ghj3333\",\r\n    \"status\": \"MOTOR_DEFEITUOSO\"\r\n  }",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{dashmottu}}/moto",
-					"host": [
-						"{{dashmottu}}"
-					],
-					"path": [
-						"moto"
-					]
+				{
+					"name": "Obter por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dashmottu}}/patio/1",
+							"host": [
+								"{{dashmottu}}"
+							],
+							"path": [
+								"patio",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Salvar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"imagemPlantaUrl\": \"https://http.cat/images/800.jpg\",\r\n    \"endereco\": {\r\n      \"cep\": \"01004-000\",\r\n      \"logradouro\": \"Praça do Lá\",\r\n      \"numero\": 64,\r\n      \"bairro\": \"Lá\",\r\n      \"cidade\": \"São Paulo\",\r\n      \"estado\": \"SP\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dashmottu}}/patio",
+							"host": [
+								"{{dashmottu}}"
+							],
+							"path": [
+								"patio"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Incluir Moto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{dashmottu}}/patio/1/motos?id=1",
+							"host": [
+								"{{dashmottu}}"
+							],
+							"path": [
+								"patio",
+								"1",
+								"motos"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"imagemPlantaUrl\": \"https://http.cat/images/200.jpg\",\r\n    \"endereco\": {\r\n      \"cep\": \"01001-220\",\r\n      \"logradouro\": \"Praça da Jé\",\r\n      \"numero\": 20,\r\n      \"bairro\": \"Jé\",\r\n      \"cidade\": \"São Paulo\",\r\n      \"estado\": \"SP\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dashmottu}}/patio/1",
+							"host": [
+								"{{dashmottu}}"
+							],
+							"path": [
+								"patio",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"imagemPlantaUrl\": \"https://http.cat/images/200.jpg\",\r\n    \"endereco\": {\r\n      \"cep\": \"01001-090\",\r\n      \"logradouro\": \"Praça da Bé\",\r\n      \"numero\": 20,\r\n      \"bairro\": \"Bé\",\r\n      \"cidade\": \"São Paulo\",\r\n      \"estado\": \"SP\"\r\n    }, \r\n    \"motos\": []\r\n}"
+						},
+						"url": {
+							"raw": "{{dashmottu}}/patio/1",
+							"host": [
+								"{{dashmottu}}"
+							],
+							"path": [
+								"patio",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Salvar Patio",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"imagemPlantaUrl\": \"https://http.cat/images/200.jpg\",\r\n    \"endereco\": {\r\n      \"cep\": \"01001-000\",\r\n      \"logradouro\": \"Praça da Sé\",\r\n      \"numero\": 20,\r\n      \"bairro\": \"Sé\",\r\n      \"cidade\": \"São Paulo\",\r\n      \"estado\": \"SP\"\r\n    }\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Moto",
+			"item": [
+				{
+					"name": "Obter todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dashmottu}}/moto",
+							"host": [
+								"{{dashmottu}}"
+							],
+							"path": [
+								"moto"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{dashmottu}}/patio",
-					"host": [
-						"{{dashmottu}}"
-					],
-					"path": [
-						"patio"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Put Localizacao",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \"posicaoX\": 120,\r\n    \"posicaoY\": 201\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "salvar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codTag\": \"b242tsa\",\r\n    \"modelo\": \"MOTO_E\",\r\n    \"placa\": \"gab1231\",\r\n    \"status\": \"MOTOR_DEFEITUOSO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dashmottu}}/moto",
+							"host": [
+								"{{dashmottu}}"
+							],
+							"path": [
+								"moto"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{dashmottu}}/moto?codTag=x1y2z3w",
-					"host": [
-						"{{dashmottu}}"
-					],
-					"path": [
-						"moto"
-					],
-					"query": [
-						{
-							"key": "codTag",
-							"value": "x1y2z3w"
+				{
+					"name": "Atualizar",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codTag\": \"b242tsa\",\r\n    \"modelo\": \"MOTO_E\",\r\n    \"placa\": \"basf213\",\r\n    \"status\": \"MOTOR_DEFEITUOSO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dashmottu}}/moto/1",
+							"host": [
+								"{{dashmottu}}"
+							],
+							"path": [
+								"moto",
+								"1"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Localizacao",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"posicaoX\": 134,\r\n    \"posicaoY\": 154\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dashmottu}}/moto?codTag=b242tsa",
+							"host": [
+								"{{dashmottu}}"
+							],
+							"path": [
+								"moto"
+							],
+							"query": [
+								{
+									"key": "codTag",
+									"value": "b242tsa"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{dashmottu}}/moto/1",
+							"host": [
+								"{{dashmottu}}"
+							],
+							"path": [
+								"moto",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		}
 	]
 }
