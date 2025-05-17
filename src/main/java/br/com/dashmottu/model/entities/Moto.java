@@ -34,7 +34,7 @@ public class Moto {
     @JoinColumn(name = "id_patio")
     private Patio patio;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_loc")
     private Localizacao localizacao;
 
