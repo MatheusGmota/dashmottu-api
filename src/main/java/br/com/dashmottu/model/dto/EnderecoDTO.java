@@ -1,52 +1,45 @@
-package br.com.dashmottu.model.entities;
+package br.com.dashmottu.model.dto;
 
-import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
-@Entity
-@Table(name = "TB_ENDERECO")
-@SequenceGenerator(name = "endereco", sequenceName = "SQ_TB_ENDERECO", allocationSize = 1)
-public class Endereco {
+public class EnderecoDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "endereco")
-    @Column(name = "id_endereco")
-    private Long id;
-
-    @Column(name = "logradouro", nullable = false, length = 100)
+    @NotBlank(message = "Logradouro é obrigatório")
+    @Size(max = 100, message = "Logradouro deve ter no máximo 100 caracteres")
     private String logradouro;
 
-    @Column(name = "numero", nullable = false)
+    @NotNull(message = "Número é obrigatório")
+    @Positive(message = "Número deve ser positivo")
     private Integer numero;
 
-    @Column(name = "bairro", nullable = false, length = 50)
+    @NotBlank(message = "Bairro é obrigatório")
+    @Size(max = 50, message = "Bairro deve ter no máximo 50 caracteres")
     private String bairro;
 
-    @Column(name = "cidade", nullable = false, length = 50)
+    @NotBlank(message = "Cidade é obrigatória")
+    @Size(max = 50, message = "Cidade deve ter no máximo 50 caracteres")
     private String cidade;
 
-    @Column(name = "estado", nullable = false, length = 2)
+    @NotBlank(message = "Estado é obrigatório")
+    @Size(min = 2, max = 2, message = "Estado deve ter exatamente 2 caracteres")
+    @Pattern(regexp = "[A-Z]{2}", message = "Estado deve ser uma sigla válida (ex: SP, RJ)")
     private String estado;
 
-    @Column(name = "cep", nullable = false, length = 9)
+    @NotBlank(message = "CEP é obrigatório")
+    @Size(min = 9, max = 9, message = "CEP deve ter exatamente 9 caracteres (incluindo hífen)")
+    @Pattern(regexp = "\\d{5}-\\d{3}", message = "CEP deve estar no formato 00000-000")
     private String cep;
 
-    public Endereco() {}
+    public EnderecoDTO() {
+    }
 
-    public Endereco(String logradouro, Integer numero, String bairro, String cidade, String estado, String cep) {
+    public EnderecoDTO(String logradouro, Integer numero, String bairro, String cidade, String estado, String cep) {
         this.logradouro = logradouro;
         this.numero = numero;
         this.bairro = bairro;
         this.cidade = cidade;
         this.estado = estado;
         this.cep = cep;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getLogradouro() {
@@ -97,3 +90,4 @@ public class Endereco {
         this.cep = cep;
     }
 }
+
