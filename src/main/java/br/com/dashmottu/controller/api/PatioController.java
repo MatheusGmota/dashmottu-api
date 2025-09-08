@@ -1,4 +1,4 @@
-package br.com.dashmottu.controller;
+package br.com.dashmottu.controller.api;
 
 import br.com.dashmottu.model.dto.PatioDTO;
 import br.com.dashmottu.model.entities.Patio;
@@ -7,7 +7,6 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 import java.util.List;
 

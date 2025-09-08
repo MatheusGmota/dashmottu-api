@@ -1,4 +1,4 @@
-package br.com.dashmottu.controller;
+package br.com.dashmottu.controller.api;
 
 import br.com.dashmottu.model.dto.LocalizacaoDTO;
 import br.com.dashmottu.model.dto.MotoRequestDTO;
