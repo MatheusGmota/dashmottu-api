@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/moto")
+@RequestMapping("api/moto")
 public class MotoController {
 
     @Autowired
@@ -27,22 +27,21 @@ public class MotoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id) {
-        Moto moto = service.obterPorId(id);
-        if (moto != null) return ResponseEntity.ok(moto);
-        else return ResponseEntity.status(404).body("Objeto não existe");
+        try {
+            MotoResponseDTO response = service.obterPorId(id);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body(e.getMessage());
+        }
     }
 
     @PostMapping()
     public ResponseEntity<Object> post(@Valid @RequestBody MotoRequestDTO motoDTO) {
         try {
             Moto moto = service.salvar(motoDTO);
+            motoDTO.setId(moto.getId());
             return ResponseEntity.status(201)
-                    .body(new MotoResponseDTO(moto.getId(),
-                            moto.getCodTag(),
-                            moto.getModelo(),
-                            moto.getPlaca(),
-                            moto.getStatus())
-                    );
+                    .body(moto);
         } catch (Exception e) {
             if (e.getMessage().contains("ORA-00001")) return ResponseEntity.status(404).body("Moto já cadastrada.");
             else return ResponseEntity.internalServerError().body("Internal Server Error");
