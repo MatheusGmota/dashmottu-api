@@ -2,6 +2,7 @@ package br.com.dashmottu.service;
 
 import br.com.dashmottu.model.dto.LocalizacaoDTO;
 import br.com.dashmottu.model.dto.MotoRequestDTO;
+import br.com.dashmottu.model.dto.MotoResponseDTO;
 import br.com.dashmottu.model.entities.Localizacao;
 import br.com.dashmottu.model.entities.Moto;
 import br.com.dashmottu.repository.LocalizacaoRepository;
@@ -25,8 +26,9 @@ public class MotoService {
         return repository.findAll();
     }
 
-    public Moto obterPorId(Long id) {
-        return repository.findById(id).orElse(null);
+    public MotoResponseDTO obterPorId(Long id) throws Exception {
+        Moto moto = repository.findById(id).orElseThrow(() -> new Exception("Moto não encontrada"));
+        return new MotoResponseDTO(moto);
     }
 
     public Moto obterPorTag(String codTag) {
