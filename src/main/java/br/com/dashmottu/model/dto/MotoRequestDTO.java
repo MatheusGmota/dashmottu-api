@@ -5,8 +5,9 @@ import br.com.dashmottu.model.enums.StatusMoto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.*;
 
-public class MotoRequestDTO {;
+public class MotoRequestDTO {
 
     private Long id;
 
@@ -27,7 +28,8 @@ public class MotoRequestDTO {;
     public MotoRequestDTO() {
     }
 
-    public MotoRequestDTO(String codTag, ModeloMoto modelo, String placa, StatusMoto status) {
+    public MotoRequestDTO(Long id, String codTag, ModeloMoto modelo, String placa, StatusMoto status) {
+        this.id = id;
         this.codTag = codTag;
         this.modelo = modelo;
         this.placa = placa;

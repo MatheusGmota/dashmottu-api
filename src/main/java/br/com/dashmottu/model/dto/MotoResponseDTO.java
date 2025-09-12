@@ -1,8 +1,12 @@
 package br.com.dashmottu.model.dto;
 
+import br.com.dashmottu.model.entities.Moto;
 import br.com.dashmottu.model.enums.ModeloMoto;
 import br.com.dashmottu.model.enums.StatusMoto;
+import lombok.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class MotoResponseDTO {
     private Long id;
     private String codTag;
@@ -10,12 +14,12 @@ public class MotoResponseDTO {
     private String placa;
     private StatusMoto status;
 
-    public MotoResponseDTO(Long id, String codTag, ModeloMoto modelo, String placa, StatusMoto status) {
-        this.id = id;
-        this.codTag = codTag;
-        this.modelo = modelo;
-        this.placa = placa;
-        this.status = status;
+    public MotoResponseDTO(Moto moto) {
+        this.id = moto.getId();
+        this.codTag = moto.getCodTag();
+        this.modelo = moto.getModelo();
+        this.placa = moto.getPlaca();
+        this.status = moto.getStatus();
     }
 
     public Long getId() {
