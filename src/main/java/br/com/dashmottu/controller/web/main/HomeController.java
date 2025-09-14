@@ -1,4 +1,4 @@
-package br.com.dashmottu.controller.web.home;
+package br.com.dashmottu.controller.web.main;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
