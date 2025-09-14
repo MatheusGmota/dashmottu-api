@@ -15,14 +15,14 @@ public class Moto {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "moto")
     private Long id;
 
-    @Column(name = "cod_tag", nullable = false, length = 50, unique = true)
+    @Column(name = "cod_tag", nullable = false, length = 10, unique = true)
     private String codTag;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "modelo", nullable = false)
     private ModeloMoto modelo;
 
-    @Column(name = "placa", nullable = false, length = 8)
+    @Column(name = "placa", nullable = false, length = 8, unique = true)
     private String placa;
 
     @Enumerated(EnumType.STRING)

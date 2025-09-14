@@ -1,7 +1,6 @@
 package br.com.dashmottu.controller.web.moto;
 
 import br.com.dashmottu.model.dto.MotoRequestDTO;
-import br.com.dashmottu.model.dto.MotoResponseDTO;
 import br.com.dashmottu.service.MotoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,9 @@ public class MotoController {
     }
 
     @PostMapping("atualizar/{id}")
-    public String atualizarFerramenta(@PathVariable("id") Long id, Model model, MotoRequestDTO entidade){
+    public String atualizarFerramenta(@PathVariable("id") Long id, @Valid @ModelAttribute("moto") MotoRequestDTO entidade, BindingResult result){
+        if (result.hasErrors())
+            return "motos/formularioEdit";
         service.editar(id, entidade);
         return "redirect:/motos";
     }
