@@ -16,16 +16,16 @@
 </header>
 <main class="flex-grow-1 mt-3 p-5">
     <section>
+        <h1 class="text-black">Motos registradas no sistema</h1>
+    </section>
+    <section class="d-flex flex-column">
         <div class="d-flex justify-content-end mb-3">
             <a th:href="@{motos/nova}" type="button" class="btn btn-primary">Adicionar</a>
         </div>
-    </section>
-    <section class="card">
-        <div class="table-wrapper">
-            <table class="table">
+        <div class="card w-100">
+            <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th></th>
                     <th>Código da Tag</th>
                     <th>Modelo</th>
                     <th>Placa</th>
@@ -53,13 +53,14 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Confirmar Exclusão</h5>
+                                    <h5 class="modal-title fw-bold">Confirmar Exclusão</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                                 </div>
                                 <div class="modal-body" th:object="${m}">
-                                    <p>ID: <span th:text="${m.id}"></span></p>
-                                    <p>Código da Tag: <span th:text="${m.codTag}"></span></p>
-                                    <p>Modelo: <span th:text="${m.modelo}"></span></p>
+                                    <p class="fw-bold fs-5">Código da Tag: <span class="fw-normal fs-6" th:text="${m.codTag}"></span></p>
+                                    <p class="fw-bold fs-5">Modelo: <span class="fw-normal fs-6" th:text="${m.modelo}"></span></p>
+                                    <p class="fw-bold fs-5">Placa: <span class="fw-normal fs-6" th:text="${m.placa}"></span></p>
+                                    <p class="fw-bold fs-5">Status: <span class="fw-normal fs-6" th:text="${m.status}"></span></p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
