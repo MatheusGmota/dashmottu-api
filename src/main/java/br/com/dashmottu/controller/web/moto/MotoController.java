@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -30,7 +31,9 @@ public class MotoController {
     }
 
     @PostMapping()
-    public String salvarFerramenta(@Valid @ModelAttribute("moto") MotoRequestDTO entidade) {
+    public String salvarFerramenta(@Valid @ModelAttribute("moto") MotoRequestDTO entidade, BindingResult result) {
+        if (result.hasErrors())
+            return "motos/formulario";
         service.salvar(entidade);
         return "redirect:/motos";
     }
