@@ -22,14 +22,11 @@
         <h2 class="text-center mb-4">Nova Moto</h2>
 
         <form th:action="@{/motos}" th:object="${moto}" method="post">
-            <!-- Código da Tag -->
             <div class="mb-3">
                 <label class="form-label">Código da Tag</label>
                 <input class="form-control" type="text" th:field="*{codTag}" placeholder="Digite o código da tag" />
                 <p th:if="${#fields.hasErrors('codTag')}" class="text-danger">Insira um código valido</p>
             </div>
-
-            <!-- Modelo -->
             <div class="mb-3 ">
                 <label class="form-label">Modelo</label>
                 <select class="form-select" th:field="*{modelo}">
@@ -38,15 +35,11 @@
                             th:value="${m}" th:text="${m}"></option>
                 </select>
             </div>
-
-            <!-- Placa -->
             <div class="mb-3">
                 <label class="form-label">Placa</label>
                 <input class="form-control" type="text" th:field="*{placa}" placeholder="Digite a placa" />
-                <p th:if="${#fields.hasErrors('codTag')}" class="text-danger">Insira uma placa válida</p>
+                <p th:if="${#fields.hasErrors('placa')}" class="text-danger">Insira uma placa válida</p>
             </div>
-
-            <!-- Status -->
             <div class="mb-4">
                 <label class="form-label">Status</label>
                 <select class="form-select" th:field="*{status}">
@@ -55,8 +48,6 @@
                             th:value="${s}" th:text="${s}"></option>
                 </select>
             </div>
-
-            <!-- Botão Salvar -->
             <div class="d-grid mb-3">
                 <button type="submit" class="btn btn-primary">Salvar</button>
             </div>
