@@ -18,13 +18,21 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizeConfig -> {
                             authorizeConfig.requestMatchers("/" ).permitAll();
-                            authorizeConfig.requestMatchers("/api/moto/**").permitAll();
-                            authorizeConfig.requestMatchers("/api/patio/**").permitAll();
-                            authorizeConfig.requestMatchers("/logout").permitAll();
+                            authorizeConfig.requestMatchers("/api/**").permitAll();
+                            authorizeConfig.requestMatchers("/login").permitAll();
                             authorizeConfig.anyRequest().authenticated();
                         }
                 )
-                .formLogin(Customizer.withDefaults())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll())
                 .build();
     }
 }
