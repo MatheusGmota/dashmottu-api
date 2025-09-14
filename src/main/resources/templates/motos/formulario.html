@@ -17,7 +17,7 @@
 <body>
 
 <div th:replace="~{fragments/header :: header}"></div>
-<main class="bg-light d-flex flex-column align-items-center justify-content-center" style="height: 100vh;">
+<main class="bg-light d-flex flex-column align-items-center justify-content-center" style="height: calc(100vh - 40px);">
     <div class="card shadow p-4 mb-3" style="width: 400px;">
         <h2 class="text-center mb-4">Nova Moto</h2>
 
@@ -26,13 +26,14 @@
             <div class="mb-3">
                 <label class="form-label">Código da Tag</label>
                 <input class="form-control" type="text" th:field="*{codTag}" placeholder="Digite o código da tag" />
+                <p th:if="${#fields.hasErrors('codTag')}" class="text-danger">Insira um código valido</p>
             </div>
 
             <!-- Modelo -->
-            <div class="mb-3">
+            <div class="mb-3 ">
                 <label class="form-label">Modelo</label>
                 <select class="form-select" th:field="*{modelo}">
-                    <option value="" selected ></option>
+                    <option value="" selected disabled hidden>Selecione um modelo</option>
                     <option th:each="m : ${T(br.com.dashmottu.model.enums.ModeloMoto).values()}"
                             th:value="${m}" th:text="${m}"></option>
                 </select>
@@ -42,13 +43,14 @@
             <div class="mb-3">
                 <label class="form-label">Placa</label>
                 <input class="form-control" type="text" th:field="*{placa}" placeholder="Digite a placa" />
+                <p th:if="${#fields.hasErrors('codTag')}" class="text-danger">Insira uma placa válida</p>
             </div>
 
             <!-- Status -->
             <div class="mb-4">
                 <label class="form-label">Status</label>
                 <select class="form-select" th:field="*{status}">
-                    <option value="" selected></option>
+                    <option value="" selected disabled>Selecione um status</option>
                     <option th:each="s : ${T(br.com.dashmottu.model.enums.StatusMoto).values()}"
                             th:value="${s}" th:text="${s}"></option>
                 </select>
