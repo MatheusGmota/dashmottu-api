@@ -18,19 +18,19 @@ public class MotoController {
     public MotoService service;
 
     @GetMapping
-    public String listarFerramentas(Model model) {
+    public String listar(Model model) {
         model.addAttribute("motos", service.listarTodos());
         return "motos/listar";
     }
 
     @GetMapping("/nova")
-    public String novaFerramenta(Model model) {
+    public String novaMoto(Model model) {
         model.addAttribute("moto", new MotoRequestDTO());
         return "motos/formulario";
     }
 
     @PostMapping()
-    public String salvarFerramenta(@Valid @ModelAttribute("moto") MotoRequestDTO entidade, BindingResult result) {
+    public String salvar(@Valid @ModelAttribute("moto") MotoRequestDTO entidade, BindingResult result) {
         if (result.hasErrors())
             return "motos/formulario";
         service.salvar(entidade);
@@ -38,19 +38,19 @@ public class MotoController {
     }
 
     @GetMapping("delete/{id}")
-    public String deletarFerramenta(@PathVariable("id") Long id, Model model){
+    public String deletar(@PathVariable("id") Long id, Model model){
         service.deletar(id);
         return "redirect:/motos";
     }
 
     @GetMapping("editar/{id}")
-    public String editarFerramenta(@PathVariable("id") Long id, Model model) throws Exception {
+    public String editar(@PathVariable("id") Long id, Model model) throws Exception {
         model.addAttribute("moto", service.obterPorId(id));
         return "motos/formularioEdit";
     }
 
     @PostMapping("atualizar/{id}")
-    public String atualizarFerramenta(@PathVariable("id") Long id, @Valid @ModelAttribute("moto") MotoRequestDTO entidade, BindingResult result){
+    public String atualizar(@PathVariable("id") Long id, @Valid @ModelAttribute("moto") MotoRequestDTO entidade, BindingResult result){
         if (result.hasErrors())
             return "motos/formularioEdit";
         service.editar(id, entidade);
