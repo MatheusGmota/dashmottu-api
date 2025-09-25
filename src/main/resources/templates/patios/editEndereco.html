@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+          crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+            crossorigin="anonymous" defer></script>
+    <title>Dashmottu - Editar Patio</title>
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: header}"></div>
+<main class="bg-light d-flex flex-column align-items-center justify-content-center mt-3" style="height: calc(100vh-80px);">
+    <div class="card shadow p-4 mb-3" style="width: 400px;">
+        <h2 class="text-center mb-4" th:text="|Editar Patio ${id}|"></h2>
+
+        <form th:action="@{/patios/atualizar/{id}(id=*{id})}" th:object="${patio}" method="post">
+            <div>
+                <input class="hidden" type="text" th:field="*{imagemPlantaUrl}" hidden>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Logradouro</label>
+                <input class="form-control" type="text" th:field="*{endereco.logradouro}" placeholder="Digite o logradouro" />
+                <p th:if="${#fields.hasErrors('endereco.logradouro')}" class="text-danger">Insira um logradouro válido</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Número</label>
+                <input class="form-control" type="text" th:field="*{endereco.numero}" placeholder="Digite o numero" />
+                <p th:if="${#fields.hasErrors('endereco.numero')}" class="text-danger">Insira um número válido</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Bairro</label>
+                <input class="form-control" type="text" th:field="*{endereco.bairro}" placeholder="Digite o bairro" />
+                <p th:if="${#fields.hasErrors('endereco.bairro')}" class="text-danger">Insira um bairro válido</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Cidade</label>
+                <input class="form-control" type="text" th:field="*{endereco.cidade}" placeholder="Digite a cidade" />
+                <p th:if="${#fields.hasErrors('endereco.cidade')}" class="text-danger">Insira uma cidade válida</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Estado</label>
+                <input class="form-control" type="text" th:field="*{endereco.estado}" placeholder="Digite o estado" />
+                <p th:if="${#fields.hasErrors('endereco.estado')}" class="text-danger">Insira um estado válido</p>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">CEP</label>
+                <input class="form-control" type="text" th:field="*{endereco.cep}" placeholder="Digite o cep" />
+                <p th:if="${#fields.hasErrors('endereco.cep')}" class="text-danger">Insira um cep válido</p>
+            </div>
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+    <div class="text-center">
+        <a class="btn btn-secondary" th:href="@{/patios}">Voltar</a>
+    </div>
+</main>
+</body>
+</html>

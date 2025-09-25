@@ -35,7 +35,9 @@ public class PatioService {
     public Patio salvar(PatioDTO patioDTO) {
         Endereco endereco = new Endereco(patioDTO.getEndereco());
         Patio patio = new Patio(endereco, patioDTO.getImagemPlantaUrl());
+        System.out.println("SALVOU");
         enderecoRepository.save(endereco);
+        System.out.println(patio.getId());
         return repository.save(patio);
     }
 

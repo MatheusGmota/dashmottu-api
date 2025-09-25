@@ -9,18 +9,24 @@ import java.util.List;
 
 public class PatioDTO {
 
-    private Long id;
+    public Long id;
 
     @Valid
-    private EnderecoDTO endereco;
+    public EnderecoDTO endereco;
 
     @NotBlank(message = "A imagem é obrigatória")
     @Size(min=3, max=100, message = "A url da imagem tem que ter entre 3 a 100 caracteres")
-    private String imagemPlantaUrl;
+    public String imagemPlantaUrl;
 
-    private List<Moto> motos;
+    public List<Moto> motos;
 
     public PatioDTO() {
+    }
+
+    public PatioDTO(Long id,EnderecoDTO endereco, String imagemPlantaUrl) {
+        this.id = id;
+        this.endereco = endereco;
+        this.imagemPlantaUrl = imagemPlantaUrl;
     }
 
     public PatioDTO(EnderecoDTO endereco, String imagemPlantaUrl, List<Moto> motos) {
