@@ -9,16 +9,16 @@ import java.util.List;
 
 public class PatioDTO {
 
-    public Long id;
+    private Long id;
 
     @Valid
-    public EnderecoDTO endereco;
+    private EnderecoDTO endereco;
 
     @NotBlank(message = "A imagem é obrigatória")
     @Size(min=3, max=100, message = "A url da imagem tem que ter entre 3 a 100 caracteres")
-    public String imagemPlantaUrl;
+    private String imagemPlantaUrl;
 
-    public List<Moto> motos;
+    private List<Moto> motos;
 
     public PatioDTO() {
     }
