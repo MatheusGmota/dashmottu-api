@@ -49,12 +49,12 @@ public class MotoController {
         }
     }
 
-    @PutMapping()
-    public ResponseEntity<Object> putLocalMoto(@RequestParam String codTag, @Valid @RequestBody LocalizacaoDTO localizacaoDTO) {
-        Moto moto = service.salvarLocalizacao(codTag, localizacaoDTO);
-        if (moto != null) return ResponseEntity.ok(moto);
-        else return ResponseEntity.status(404).body("Não foi possível atualizar");
-    }
+//    @PutMapping()
+//    public ResponseEntity<Object> putLocalMoto(@RequestParam String codTag, @Valid @RequestBody LocalizacaoDTO localizacaoDTO) {
+//        Moto moto = service.salvarLocalizacao(codTag, localizacaoDTO);
+//        if (moto != null) return ResponseEntity.ok(moto);
+//        else return ResponseEntity.status(404).body("Não foi possível atualizar");
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> put(@PathVariable Long id, @Valid @RequestBody MotoRequestDTO motoRequestDTO) {

@@ -33,17 +33,17 @@ public class MotoService {
         return repository.findByCodTag(codTag);
     }
 
-    public Moto salvarLocalizacao(String codTag, LocalizacaoDTO localizacaoDTO) {
-        Localizacao localizacao = new Localizacao(localizacaoDTO.getPosicaoX(), localizacaoDTO.getPosicaoY());
-        Moto moto = obterPorTag(codTag);
-        if (moto != null) {
-            moto.setLocalizacao(localizacao);
-            localizacao.setUltimaModificacao( new Date());
-            localizacaoRepository.saveAndFlush(localizacao);
-            return repository.saveAndFlush(moto);
-        }
-        return null;
-    }
+//    public Moto salvarLocalizacao(String codTag, LocalizacaoDTO localizacaoDTO) {
+//        Localizacao localizacao = new Localizacao(localizacaoDTO.getPosicaoX(), localizacaoDTO.getPosicaoY());
+//        Moto moto = obterPorTag(codTag);
+//        if (moto != null) {
+//            moto.setLocalizacao(localizacao);
+//            localizacao.setUltimaModificacao( new Date());
+//            localizacaoRepository.save(localizacao);
+//            return repository.saveAndFlush(moto);
+//        }
+//        return null;
+//    }
 
     public Moto salvar(MotoRequestDTO motoDTO) {
         Moto moto = new Moto(motoDTO.getCodTag(), motoDTO.getModelo(), motoDTO.getPlaca(), motoDTO.getStatus());
@@ -55,7 +55,6 @@ public class MotoService {
         if(byId != null) {
             Moto moto = new Moto(motoRequestDTO.getCodTag(), motoRequestDTO.getModelo(),motoRequestDTO.getPlaca(),motoRequestDTO.getStatus());
             moto.setId(id);
-            moto.setLocalizacao(byId.getLocalizacao());
             return repository.saveAndFlush(moto);
         }
         return null;
