@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/moto")
+@CrossOrigin("*")
 public class MotoController {
 
     @Autowired
