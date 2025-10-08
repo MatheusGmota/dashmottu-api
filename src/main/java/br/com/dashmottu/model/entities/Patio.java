@@ -1,11 +1,17 @@
 package br.com.dashmottu.model.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "tb_patio")
+@Getter
+@Setter
+@NoArgsConstructor
 @SequenceGenerator(name = "patio", sequenceName = "SQ_TB_PATIO", allocationSize = 1)
 public class Patio {
 
@@ -23,8 +29,6 @@ public class Patio {
     @OneToMany(mappedBy = "patio", cascade = CascadeType.ALL)
     private List<Moto> motos;
 
-    public Patio() {}
-
     public Patio(Endereco endereco, String imagemPlantaUrl) {
         this.endereco = endereco;
         this.imagemPlantaUrl = imagemPlantaUrl;
@@ -35,35 +39,4 @@ public class Patio {
         this.motos.add(moto);
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Endereco getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
-    }
-
-    public String getImagemPlantaUrl() {
-        return imagemPlantaUrl;
-    }
-
-    public void setImagemPlantaUrl(String imagemPlantaUrl) {
-        this.imagemPlantaUrl = imagemPlantaUrl;
-    }
-
-    public List<Moto> getMotos() {
-        return motos;
-    }
-
-    public void setMotos(List<Moto> motos) {
-        this.motos = motos;
-    }
 }
