@@ -1,6 +1,8 @@
 package br.com.dashmottu.controller;
 
+import br.com.dashmottu.infra.security.TokenService;
 import br.com.dashmottu.model.dto.AuthenticationDTO;
+import br.com.dashmottu.model.dto.LoginResponseDto;
 import br.com.dashmottu.model.dto.RegisterDTO;
 import br.com.dashmottu.model.entities.User;
 import br.com.dashmottu.repository.UserRepository;
@@ -18,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired
+    private TokenService tokenService;
+
+    @Autowired
     private UserRepository repository;
 
     @Autowired
@@ -28,12 +33,14 @@ public class AuthController {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDto(token));
     }
 
     @PostMapping("/register")
     public ResponseEntity<Object> register(@RequestBody @Valid RegisterDTO data) {
-        if(this.repository.findByLogin(data.login()).isPresent()) return ResponseEntity.badRequest().build();
+        if(this.repository.findByLogin(data.login()) == null) return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         User newUser = new User(data.login(), encryptedPassword, data.role());

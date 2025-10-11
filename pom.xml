@@ -24,6 +24,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>4.5.0</version>
+        </dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
@@ -79,33 +84,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-		    <plugin>
-		        <groupId>com.microsoft.azure</groupId>
-		        <artifactId>azure-webapp-maven-plugin</artifactId>
-		        <version>2.14.1</version>
-		        <configuration>
-		            <schemaVersion>v2</schemaVersion>
-		            <resourceGroup>dashmottu-1759358495037-rg</resourceGroup>
-		            <appName>dashmottu-1759358495037</appName>
-		            <pricingTier>F1</pricingTier>
-		            <region>centralus</region>
-		            <runtime>
-		                <os>Linux</os>
-		                <javaVersion>Java 21</javaVersion>
-		                <webContainer>Java SE</webContainer>
-		            </runtime>
-		            <deployment>
-		                <resources>
-		                    <resource>
-		                        <directory>${project.basedir}/target</directory>
-		                        <includes>
-		                            <include>*.jar</include>
-		                        </includes>
-		                    </resource>
-		                </resources>
-		            </deployment>
-		        </configuration>
-		    </plugin>
 		</plugins>
 	</build>
 
