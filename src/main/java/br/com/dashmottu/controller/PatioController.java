@@ -1,20 +1,19 @@
 package br.com.dashmottu.controller;
 
 import br.com.dashmottu.model.dto.PatioDTO;
+import br.com.dashmottu.model.dto.RegisterDTO;
 import br.com.dashmottu.model.entities.Patio;
 import br.com.dashmottu.service.PatioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/patio")
-@CrossOrigin(value = "*")
+@CrossOrigin("*")
 public class PatioController {
 
     @Autowired
@@ -40,9 +39,16 @@ public class PatioController {
     }
 
     @PostMapping("/{id}/motos")
-    public ResponseEntity<Object> postMoto(@PathVariable("id") Long id, @RequestParam("id") Long idMoto) {
+    public ResponseEntity<Object> postMoto(@PathVariable("id") Long id, @RequestParam("id-moto") Long idMoto) {
         Object o = service.salvarMoto(id, idMoto);
         if (o != null) return ResponseEntity.status(201).body(o);
+        else return ResponseEntity.status(400).body("Erro na requisicão");
+    }
+
+    @PostMapping("/usuario")
+    public ResponseEntity<Object> postUser(@Valid @RequestBody RegisterDTO data, @RequestParam("id-patio") Long idPatio) {
+        Object o =  service.salvarUsuario(data, idPatio);
+        if (o != null) return ResponseEntity.status(201).body("Usuario criado");
         else return ResponseEntity.status(400).body("Erro na requisicão");
     }
 

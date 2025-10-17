@@ -1,6 +1,5 @@
 package br.com.dashmottu.controller;
 
-import br.com.dashmottu.model.dto.LocalizacaoDTO;
 import br.com.dashmottu.model.dto.MotoRequestDTO;
 import br.com.dashmottu.model.dto.MotoResponseDTO;
 import br.com.dashmottu.model.entities.Moto;
@@ -49,13 +48,6 @@ public class MotoController {
             else return ResponseEntity.internalServerError().body("Internal Server Error");
         }
     }
-
-//    @PutMapping()
-//    public ResponseEntity<Object> putLocalMoto(@RequestParam String codTag, @Valid @RequestBody LocalizacaoDTO localizacaoDTO) {
-//        Moto moto = service.salvarLocalizacao(codTag, localizacaoDTO);
-//        if (moto != null) return ResponseEntity.ok(moto);
-//        else return ResponseEntity.status(404).body("Não foi possível atualizar");
-//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> put(@PathVariable Long id, @Valid @RequestBody MotoRequestDTO motoRequestDTO) {

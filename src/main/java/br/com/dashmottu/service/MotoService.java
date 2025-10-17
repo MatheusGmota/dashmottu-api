@@ -1,15 +1,12 @@
 package br.com.dashmottu.service;
 
-import br.com.dashmottu.model.dto.LocalizacaoDTO;
 import br.com.dashmottu.model.dto.MotoRequestDTO;
-import br.com.dashmottu.model.entities.Localizacao;
 import br.com.dashmottu.model.entities.Moto;
 import br.com.dashmottu.repository.LocalizacaoRepository;
 import br.com.dashmottu.repository.MotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service

@@ -1,6 +1,7 @@
 package br.com.dashmottu.model.entities;
 
 import br.com.dashmottu.model.enums.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,12 +40,20 @@ public class User implements UserDetails {
         this.role = role;
     }
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "id_patio")
+    private Patio patio;
+
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role == UserRole.ADMIN)
+        if(this.role == UserRole.MASTER)
+            return List.of(new SimpleGrantedAuthority("ROLE_MASTER"), new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else if (this.role == UserRole.ADMIN) {
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
-        else
-            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        }
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override

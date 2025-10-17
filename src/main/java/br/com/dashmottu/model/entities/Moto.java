@@ -37,7 +37,7 @@ public class Moto {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "id_patio")
+    @JoinColumn(name = "id_patio", unique = true)
     private Patio patio;
 
     public Moto(String codTag, ModeloMoto modelo, String placa, StatusMoto status) {

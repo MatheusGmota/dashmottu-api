@@ -39,13 +39,17 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@RequestBody @Valid RegisterDTO data) {
-        if(this.repository.findByLogin(data.login()) == null) return ResponseEntity.badRequest().build();
+    public ResponseEntity<Object> register(@RequestBody @Valid RegisterDTO data, @RequestParam(value = "id-patio", required = false) Long idPatio) {
+        if(this.repository.findByLogin(data.login()) != null) return ResponseEntity.status(400).body("Usuário já existe");
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         User newUser = new User(data.login(), encryptedPassword, data.role());
 
         this.repository.save(newUser);
+        if (idPatio != null) {
+
+            return ResponseEntity.ok(newUser);
+        }
         return ResponseEntity.ok().build();
     }
 }

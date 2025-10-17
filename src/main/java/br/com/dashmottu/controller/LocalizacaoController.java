@@ -11,6 +11,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping("/api/localizacao")
+@CrossOrigin("*")
 public class LocalizacaoController {
 
     @Autowired
