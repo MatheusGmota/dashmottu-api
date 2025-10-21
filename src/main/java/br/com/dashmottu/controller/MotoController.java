@@ -6,6 +6,7 @@ import br.com.dashmottu.model.dto.MotoResponseDTO;
 import br.com.dashmottu.model.entities.Moto;
 import br.com.dashmottu.service.MotoService;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,13 @@ public class MotoController {
         Moto moto = service.obterPorId(id);
         if (moto != null) return ResponseEntity.ok(moto);
         else return ResponseEntity.status(404).body("Objeto não existe");
+    }
+    // "api/moto/patio?id-patio={idPatio}"
+    @GetMapping("/patio")
+    public ResponseEntity<Object> getMotosByPatioId(@PathParam("id-patio") Long idPatio) {
+        List<Moto> motos = service.obterMotosPorPatioId(idPatio);
+        if (!motos.isEmpty()) return ResponseEntity.ok(motos);
+        else return ResponseEntity.status(404).body("Não existe nenhuma moto para esse patio");
     }
 
     @PostMapping()
