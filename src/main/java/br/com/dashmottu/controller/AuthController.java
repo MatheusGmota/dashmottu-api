@@ -6,6 +6,7 @@ import br.com.dashmottu.model.dto.LoginResponseDto;
 import br.com.dashmottu.model.dto.RegisterDTO;
 import br.com.dashmottu.model.entities.User;
 import br.com.dashmottu.repository.UserRepository;
+import br.com.dashmottu.service.PatioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +20,13 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 public class AuthController {
 
+//    private OperationResult operationResult;
+
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private PatioService patioService;
 
     @Autowired
     private UserRepository repository;
@@ -45,11 +51,17 @@ public class AuthController {
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         User newUser = new User(data.login(), encryptedPassword, data.role());
 
-        this.repository.save(newUser);
-        if (idPatio != null) {
 
-            return ResponseEntity.ok(newUser);
+        if (idPatio != null) {
+            Object o = patioService.salvarUsuario(newUser, idPatio);
+            if (o == null) return ResponseEntity.status(400).body("Pátio não encontrado");
+//           operationResult.success("Usuário criado no pátio " + idPatio);
+//          return ResponseEntity.status(operationResult.getStatusCode(), operationResult.getMessage());
+            return ResponseEntity.ok().build();
         }
+        this.repository.save(newUser);
+
+//      return ResponseEntity.status(operationResult.getStatusCode(), operationResult.getMessage());
         return ResponseEntity.ok().build();
     }
 }

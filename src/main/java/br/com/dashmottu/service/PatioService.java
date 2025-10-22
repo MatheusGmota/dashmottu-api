@@ -1,7 +1,6 @@
 package br.com.dashmottu.service;
 
 import br.com.dashmottu.model.dto.PatioDTO;
-import br.com.dashmottu.model.dto.RegisterDTO;
 import br.com.dashmottu.model.entities.Endereco;
 import br.com.dashmottu.model.entities.Moto;
 import br.com.dashmottu.model.entities.Patio;
@@ -11,7 +10,6 @@ import br.com.dashmottu.repository.MotoRepository;
 import br.com.dashmottu.repository.PatioRepository;
 import br.com.dashmottu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -83,21 +81,14 @@ public class PatioService {
         return null;
     }
 
-    public Object salvarUsuario(RegisterDTO data, Long idPatio) {
+    public Object salvarUsuario(User user, Long idPatio) {
         try {
             Patio patio = repository.findById(idPatio).orElse(null);
             if (patio != null) {
-
-                User user = restClient.post()
-                        .uri("/auth/register?id-patio={id}", idPatio)
-                        .body(data)
-                        .retrieve().onStatus(HttpStatusCode::is2xxSuccessful, (request, res) -> res.getStatusCode()).body(User.class);
-                if (user != null) {
-                        patio.addUser(user);
-                        user.setPatio(patio);
-                        this.repository.save(patio);
-                        return this.userRepository.save(user);
-                }
+                patio.addUser(user);
+                user.setPatio(patio);
+                repository.save(patio);
+                return user;
             }
             return null;
         } catch (Exception e) {

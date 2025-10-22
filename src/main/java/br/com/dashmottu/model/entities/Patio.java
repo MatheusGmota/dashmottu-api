@@ -52,8 +52,8 @@ public class Patio {
     }
 
     @JsonIgnore
-    public List<UserDto> getUsersDto() {
-        return users.stream().map(user -> new UserDto(user.getId(), user.getLogin(), user.getRole(), true)).toList();
+    public List<UserDto.Response> getUsersDto() {
+        return users.stream().map(user -> new UserDto.Response(user.getId(), user.getLogin(), user.getRole(), true)).toList();
     }
 
 }
