@@ -19,9 +19,6 @@ import java.util.List;
 public class PatioService {
 
     @Autowired
-    RestClient restClient;
-
-    @Autowired
     UserRepository userRepository;
 
     @Autowired
