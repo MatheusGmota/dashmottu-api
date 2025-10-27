@@ -28,7 +28,7 @@ public class Moto {
     @Column(name = "modelo", nullable = false)
     private ModeloMoto modelo;
 
-    @Column(name = "placa", nullable = false, length = 8)
+    @Column(name = "placa", nullable = false, length = 8, unique = true)
     private String placa;
 
     @Enumerated(EnumType.STRING)
