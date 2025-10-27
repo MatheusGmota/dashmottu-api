@@ -11,9 +11,9 @@ import br.com.dashmottu.repository.PatioRepository;
 import br.com.dashmottu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PatioService {
@@ -50,6 +50,9 @@ public class PatioService {
             Patio patio = repository.findById(id).orElse(null);
             Moto moto = motoRepository.findById(idMoto).orElse(null);
             if (patio != null && moto != null) {
+                // verifica se moto ja esta adicionado no patio
+                Optional<Moto> m = motoRepository.findByPatio(patio);
+                if (m.isPresent()) throw new RuntimeException("Moto já cadastrada");
                 patio.addMoto(moto); //adicionando moto no contexto da lista do patio
                 motoRepository.saveAndFlush(moto);
                 return repository.saveAndFlush(patio); // atualizando tabelas
