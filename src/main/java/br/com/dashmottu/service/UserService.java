@@ -16,6 +16,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -31,29 +33,34 @@ public class UserService {
     @Autowired
     private PatioService patioService;
 
-    public Object editar(AuthenticationDTO request, Long id) {
+    public OperationResult<Object> editar(AuthenticationDTO request, Long id) {
         User user = repository.findById(id).orElse(null);
-        String encryptedPassword = new BCryptPasswordEncoder().encode(request.password());
+
         if (user != null) {
+            String encryptedPassword = new BCryptPasswordEncoder().encode(request.password());
             user.setLogin(request.login());
             user.setPassword(encryptedPassword);
             user.setId(id);
-            return repository.save(user);
+            repository.save(user);
+            return OperationResult.success(user.getId());
         }
-        return null;
+        return OperationResult.failure("Usuário não encontrado.");
     }
 
-    public UserDto.Response obterPorId(Long id) {
+    public OperationResult<Object> obterPorId(Long id) {
         User user = this.repository.findById(id).orElse(null);
-        if (user == null) return null;
-        return new UserDto.Response(user.getId(), user.getLogin(), user.getRole(), true);
+        if (user == null) return OperationResult.failure("Usuário não encontrado");
+        return OperationResult.success(
+                new UserDto.Response(user.getId(), user.getLogin(), user.getRole(), true)
+        );
+
     }
 
-    public Object delete(Long id) {
-        User user = this.repository.findById(id).orElse(null);
-        if (user == null) return null;
-        this.repository.delete(user);
-        return "Deletado";
+    public OperationResult<Object> delete(Long id) {
+        Optional<User> byId = this.repository.findById(id);
+        if (byId.isEmpty()) return OperationResult.failure("Usuário não encontrado");
+        this.repository.delete(byId.get());
+        return OperationResult.success("Deletado");
     }
 
     public OperationResult<Object> login(AuthenticationDTO data) {
@@ -65,17 +72,17 @@ public class UserService {
             var token = tokenService.generateToken((User) auth.getPrincipal());
 
             LoginResponseDto response = new LoginResponseDto(user.getId(), user.getLogin(), token);
-            return new OperationResult<>().success(response);
+            return OperationResult.success(response);
         }
         catch (AuthenticationException e) {
-            return new OperationResult<>()
+            return OperationResult
                     .failure("Usuário ou senha incorretos", 401);
         }
     }
 
     public OperationResult<Object> register(@Valid RegisterDTO data, Long idPatio) {
         if (this.repository.findByLogin(data.login()).isPresent())
-            return new OperationResult<>().failure("Usuário já cadastrado");
+            return OperationResult.failure("Usuário já cadastrado");
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
         User newUser = new User(data.login(), encryptedPassword, data.role());
@@ -83,11 +90,11 @@ public class UserService {
         if (idPatio != null) {
             Object o = patioService.salvarUsuario(newUser, idPatio);
             if (o == null)
-                return new OperationResult<>().failure("Pátio não encontrado");
+                return OperationResult.failure("Pátio não encontrado");
         } else {
             this.repository.save(newUser);
         }
 
-        return new OperationResult<>().success(newUser, 201);
+        return OperationResult.success(newUser, 201);
     }
 }

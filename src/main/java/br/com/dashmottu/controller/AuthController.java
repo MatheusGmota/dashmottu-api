@@ -21,8 +21,8 @@ public class AuthController {
     public ResponseEntity<Object> login(@RequestBody @Valid AuthenticationDTO data) {
         try {
             OperationResult<Object> result = this.userService.login(data);
-            return ResponseEntity.status(result.statusCode)
-                    .body((result.errorMessage == null) ? result.data : result.errorMessage);
+            return ResponseEntity.status(result.getStatusCode())
+                    .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getCause());
         }
@@ -32,8 +32,8 @@ public class AuthController {
     public ResponseEntity<Object> register(@RequestBody @Valid RegisterDTO data, @RequestParam(value = "id-patio", required = false) Long idPatio) {
         try {
             OperationResult<Object> result = this.userService.register(data, idPatio);
-            return ResponseEntity.status(result.statusCode)
-                    .body((result.errorMessage == null) ? result.data : result.errorMessage);
+            return ResponseEntity.status(result.getStatusCode())
+                    .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getCause());
         }

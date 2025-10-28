@@ -1,5 +1,6 @@
 package br.com.dashmottu.controller;
 
+import br.com.dashmottu.model.OperationResult;
 import br.com.dashmottu.model.dto.AuthenticationDTO;
 import br.com.dashmottu.model.dto.UserDto;
 import br.com.dashmottu.model.entities.Patio;
@@ -34,24 +35,36 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable("id") Long id) {
-        UserDto.Response user = this.service.obterPorId(id);
-        if (user == null) return ResponseEntity.status(400).body("Nenhum usuário encontrado");
-        return ResponseEntity.ok(user);
+        try {
+            OperationResult<Object> result = this.service.obterPorId(id);
+            return ResponseEntity.status(result.getStatusCode())
+                    .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getCause());
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> put(@Valid @RequestBody AuthenticationDTO user, @PathParam("id") Long id) {
-        Object editar = this.service.editar(user, id);
-        if (editar == null) return ResponseEntity.status(400).body("Usuário não encontrado");
-
-        return ResponseEntity.ok("Atualizado");
-
+        try {
+            OperationResult<Object> result = this.service.editar(user, id);
+            return ResponseEntity.status(result.getStatusCode()).body(
+                    (result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getCause());
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable("id") Long id) {
-        Object delete = this.service.delete(id);
-        if (delete == null) return ResponseEntity.status(400).body("Usuário não encontrado");
-        return ResponseEntity.ok(delete);
+        try {
+            OperationResult<Object> result = this.service.delete(id);
+            return ResponseEntity.status(result.getStatusCode()).body(
+                    (result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getCause());
+        }
     }
 }

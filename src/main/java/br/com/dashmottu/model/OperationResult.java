@@ -11,9 +11,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class OperationResult<T> {
-    public T data;
-    public int statusCode = 200;
-    public String errorMessage;
+    private T data;
+    private int statusCode = 200;
+    private String errorMessage;
 
     private OperationResult(T data, int statusCode) {
         this.data = data;
@@ -25,19 +25,19 @@ public class OperationResult<T> {
         this.statusCode = statusCode;
     }
 
-    public OperationResult<T> success(T data) {
+    public static <T> OperationResult<T> success(T data) {
         return new OperationResult<>(data, 200);
     }
 
-    public OperationResult<T> success(@Nullable T data,  int statusCode) {
+    public static <T> OperationResult<T> success(@Nullable T data,  int statusCode) {
         return new OperationResult<>(data, statusCode);
     }
 
-    public OperationResult<T> failure(String errorMessage) {
+    public static <T> OperationResult<T> failure(String errorMessage) {
         return new OperationResult<>(errorMessage, 400);
     }
 
-    public OperationResult<T> failure(String errorMessage, int statusCode) {
+    public static <T> OperationResult<T> failure(String errorMessage, int statusCode) {
         return new OperationResult<>(errorMessage, statusCode);
     }
 }
