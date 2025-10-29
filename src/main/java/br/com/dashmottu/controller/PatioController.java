@@ -1,5 +1,6 @@
 package br.com.dashmottu.controller;
 
+import br.com.dashmottu.model.OperationResult;
 import br.com.dashmottu.model.dto.PatioDTO;
 import br.com.dashmottu.model.entities.Patio;
 import br.com.dashmottu.service.PatioService;
@@ -20,41 +21,43 @@ public class PatioController {
 
     @GetMapping
     public ResponseEntity<Object> obterTodos() {
-        List<Patio> lista = service.listarTodos();
-        return ResponseEntity.ok(lista);
+        OperationResult<Object> result = service.listarTodos();
+        return ResponseEntity.status(result.getStatusCode())
+                .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id) {
-        Patio patio = service.obterPorId(id);
-        if (patio != null) return ResponseEntity.ok(patio);
-        else return ResponseEntity.status(404).body("Objeto não existe");
+        OperationResult<Object> result = this.service.obterPorId(id);
+        return ResponseEntity.status(result.getStatusCode())
+                .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
     }
 
     @PostMapping
     public ResponseEntity<Object> post(@Valid @RequestBody PatioDTO patioDTO) {
-        Patio salvar = service.salvar(patioDTO);
-        return ResponseEntity.status(201).body(salvar);
+        OperationResult<Object> result = this.service.salvar(patioDTO);
+        return ResponseEntity.status(result.getStatusCode())
+                .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
     }
 
     @PostMapping("/{id}/motos")
     public ResponseEntity<Object> postMoto(@PathVariable("id") Long id, @RequestParam("id-moto") Long idMoto) {
-        Object o = service.salvarMoto(id, idMoto);
-        if (o != null) return ResponseEntity.status(201).body(o);
-        else return ResponseEntity.status(400).body("Erro na requisicão");
+        OperationResult<Object> result = service.salvarMoto(id, idMoto);
+        return ResponseEntity.status(result.getStatusCode())
+                .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> put(@PathVariable Long id, @Valid @RequestBody PatioDTO patioDTO) {
-        Patio editar = service.editar(id, patioDTO);
-        if(editar != null) return ResponseEntity.ok(editar);
-        else return ResponseEntity.status(404).body("Não foi possível atualizar");
+        OperationResult<Object> result = service.editar(id, patioDTO);
+        return ResponseEntity.status(result.getStatusCode())
+                .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
-        String resposta = service.deletar(id);
-        if(resposta != null) return ResponseEntity.ok(resposta);
-        else return ResponseEntity.status(404).body("Objeto não existe");
+        OperationResult<Object> result = this.service.deletar(id);
+        return ResponseEntity.status(result.getStatusCode())
+                .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
     }
 }

@@ -1,6 +1,8 @@
 package br.com.dashmottu.service;
 
+import br.com.dashmottu.model.OperationResult;
 import br.com.dashmottu.model.dto.MotoRequestDTO;
+import br.com.dashmottu.model.dto.MotoResponseDTO;
 import br.com.dashmottu.model.entities.Moto;
 import br.com.dashmottu.model.entities.Patio;
 import br.com.dashmottu.repository.LocalizacaoRepository;
@@ -23,44 +25,109 @@ public class MotoService {
     @Autowired
     private LocalizacaoRepository localizacaoRepository;
 
-    public List<Moto> listarTodos() {
-        return repository.findAll();
+    public OperationResult<Object> listarTodos() {
+        try {
+            List<Moto> motos = repository.findAll();
+            if (motos.isEmpty()) {
+                return OperationResult.failure("Nenhuma moto cadastrada", 204);
+            }
+            return OperationResult.success(motos);
+        } catch (Exception e) {
+            return OperationResult.failure("Erro ao listar motos: " + e.getMessage(), 500);
+        }
     }
 
-    public Moto obterPorId(Long id) {
-        return repository.findById(id).orElse(null);
+    public OperationResult<Object> obterPorId(Long id) {
+        try {
+            Moto moto = repository.findById(id).orElse(null);
+            if (moto == null) return OperationResult.failure("Moto não encontrada", 404);
+            return OperationResult.success(moto);
+        } catch (Exception e) {
+            return OperationResult.failure("Erro ao buscar moto: " + e.getMessage(), 500);
+        }
     }
 
-    public Moto obterPorTag(String codTag) {
-        return repository.findByCodTag(codTag);
+    public OperationResult<Object> obterPorTag(String codTag) {
+        try {
+            Moto moto = repository.findByCodTag(codTag);
+            if (moto == null) return OperationResult.failure("Moto não encontrada para o código informado", 404);
+            return OperationResult.success(moto);
+        } catch (Exception e) {
+            return OperationResult.failure("Erro ao buscar moto por tag: " + e.getMessage(), 500);
+        }
     }
 
-    public Moto salvar(MotoRequestDTO motoDTO) {
-        Moto moto = new Moto(motoDTO.getCodTag(), motoDTO.getModelo(), motoDTO.getPlaca(), motoDTO.getStatus());
-        return repository.save(moto);
+    public OperationResult<Object> salvar(MotoRequestDTO motoDTO) {
+        try {
+            Moto moto = new Moto(
+                    motoDTO.getCodTag(),
+                    motoDTO.getModelo(),
+                    motoDTO.getPlaca(),
+                    motoDTO.getStatus()
+            );
+
+            Moto salvo = repository.save(moto);
+            return OperationResult.success(
+                    new MotoResponseDTO(moto.getId(),
+                    moto.getCodTag(),
+                    moto.getModelo(),
+                    moto.getPlaca(),
+                    moto.getStatus()), 201);
+        } catch (Exception e) {
+            return OperationResult.failure("Erro ao salvar moto: " + e.getMessage(), 500);
+        }
     }
 
-    public Moto editar(Long id, MotoRequestDTO motoRequestDTO) {
-        Moto byId = repository.findById(id).orElse(null);
-        if(byId != null) {
-            Moto moto = new Moto(motoRequestDTO.getCodTag(), motoRequestDTO.getModelo(),motoRequestDTO.getPlaca(),motoRequestDTO.getStatus());
+    public OperationResult<Object> editar(Long id, MotoRequestDTO motoRequestDTO) {
+        try {
+            Moto existente = repository.findById(id).orElse(null);
+            if (existente == null) {
+                return OperationResult.failure("Moto não encontrada", 404);
+            }
+
+            Moto moto = new Moto(
+                    motoRequestDTO.getCodTag(),
+                    motoRequestDTO.getModelo(),
+                    motoRequestDTO.getPlaca(),
+                    motoRequestDTO.getStatus()
+            );
             moto.setId(id);
-            return repository.saveAndFlush(moto);
+
+            Moto atualizado = repository.saveAndFlush(moto);
+            return OperationResult.success(atualizado);
+        } catch (Exception e) {
+            return OperationResult.failure("Erro ao editar moto: " + e.getMessage(), 500);
         }
-        return null;
     }
 
-    public String deletar(Long id) {
-        if(repository.existsById(id)) {
+    public OperationResult<Object> deletar(Long id) {
+        try {
+            if (!repository.existsById(id)) {
+                return OperationResult.failure("Moto não encontrada", 404);
+            }
+
             repository.deleteById(id);
-            return "Deletado com sucesso!";
+            return OperationResult.success("Moto deletada com sucesso!");
+        } catch (Exception e) {
+            return OperationResult.failure("Erro ao deletar moto: " + e.getMessage(), 500);
         }
-        return null;
     }
 
-    public List<Moto> obterMotosPorPatioId(Long idPatio) {
-        Patio patio = patioRepository.findById(idPatio).orElse(null);
-        if (patio == null) return null;
-        return patio.getMotos();
+    public OperationResult<Object> obterMotosPorPatioId(Long idPatio) {
+        try {
+            Patio patio = patioRepository.findById(idPatio).orElse(null);
+            if (patio == null) {
+                return OperationResult.failure("Pátio não encontrado", 404);
+            }
+
+            List<Moto> motos = patio.getMotos();
+            if (motos == null || motos.isEmpty()) {
+                return OperationResult.failure("Nenhuma moto vinculada a este pátio", 204);
+            }
+
+            return OperationResult.success(motos);
+        } catch (Exception e) {
+            return OperationResult.failure("Erro ao buscar motos do pátio: " + e.getMessage(), 500);
+        }
     }
 }

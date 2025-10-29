@@ -1,5 +1,6 @@
 package br.com.dashmottu.controller;
 
+import br.com.dashmottu.model.OperationResult;
 import br.com.dashmottu.model.dto.MotoRequestDTO;
 import br.com.dashmottu.model.dto.MotoResponseDTO;
 import br.com.dashmottu.model.entities.Moto;
@@ -22,52 +23,55 @@ public class MotoController {
 
     @GetMapping
     public ResponseEntity<Object> get() {
-        List<Moto> lista = service.listarTodos();
-        return ResponseEntity.ok(lista);
+
+        OperationResult<Object> result = this.service.listarTodos();
+        return ResponseEntity.status(result.getStatusCode())
+                .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
+
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getById(@PathVariable Long id) {
-        Moto moto = service.obterPorId(id);
-        if (moto != null) return ResponseEntity.ok(moto);
-        else return ResponseEntity.status(404).body("Objeto não existe");
+
+        OperationResult<Object> result = this.service.obterPorId(id);
+        return ResponseEntity.status(result.getStatusCode())
+                .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
+
     }
 
     @GetMapping("/patio")
     public ResponseEntity<Object> getMotosByPatioId(@PathParam("id-patio") Long idPatio) {
-        List<Moto> motos = service.obterMotosPorPatioId(idPatio);
-        if (!motos.isEmpty()) return ResponseEntity.ok(motos);
-        else return ResponseEntity.status(404).body("Não existe nenhuma moto para esse patio");
+
+        OperationResult<Object> result = this.service.obterMotosPorPatioId(idPatio);
+        return ResponseEntity.status(result.getStatusCode())
+                .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
+
     }
 
     @PostMapping()
     public ResponseEntity<Object> post(@Valid @RequestBody MotoRequestDTO motoDTO) {
-        try {
-            Moto moto = service.salvar(motoDTO);
-            return ResponseEntity.status(201)
-                    .body(new MotoResponseDTO(moto.getId(),
-                            moto.getCodTag(),
-                            moto.getModelo(),
-                            moto.getPlaca(),
-                            moto.getStatus())
-                    );
-        } catch (Exception e) {
-            if (e.getMessage().contains("ORA-00001")) return ResponseEntity.status(404).body("Moto já cadastrada.");
-            else return ResponseEntity.internalServerError().body("Internal Server Error");
-        }
+
+        OperationResult<Object> result = this.service.salvar(motoDTO);
+        return ResponseEntity.status(result.getStatusCode())
+                .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
+
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> put(@PathVariable Long id, @Valid @RequestBody MotoRequestDTO motoRequestDTO) {
-        Moto editar = service.editar(id, motoRequestDTO);
-        if(editar != null) return ResponseEntity.ok(editar);
-        else return ResponseEntity.status(404).body("Não foi possível atualizar");
+
+        OperationResult<Object> result = this.service.editar(id, motoRequestDTO);
+        return ResponseEntity.status(result.getStatusCode())
+                .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id) {
-        String resposta = service.deletar(id);
-        if(resposta != null) return ResponseEntity.ok(resposta);
-        else return ResponseEntity.status(404).body("Objeto não existe");
+
+        OperationResult<Object> result = this.service.deletar(id);
+        return ResponseEntity.status(result.getStatusCode())
+                .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
+
     }
 }

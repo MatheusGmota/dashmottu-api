@@ -6,7 +6,9 @@ import br.com.dashmottu.model.dto.AuthenticationDTO;
 import br.com.dashmottu.model.dto.LoginResponseDto;
 import br.com.dashmottu.model.dto.RegisterDTO;
 import br.com.dashmottu.model.dto.UserDto;
+import br.com.dashmottu.model.entities.Patio;
 import br.com.dashmottu.model.entities.User;
+import br.com.dashmottu.repository.PatioRepository;
 import br.com.dashmottu.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +36,15 @@ public class UserService {
     @Autowired
     private PatioService patioService;
 
+    @Autowired
+    private PatioRepository patioRepository;
+
     public OperationResult<Object> obterUsersPorPatio(Long idPatio) {
 
         try {
-            List<User> users = repository.findByPatio(idPatio);
+            Optional<Patio> byId = patioRepository.findById(idPatio);
+            if (byId.isEmpty()) return OperationResult.failure("Pátio não encontrado");
+            List<User> users = repository.findByPatio(byId.get());
             if (!users.isEmpty()) {
                 return OperationResult.success(
                         users.stream().map(user ->
@@ -45,7 +52,7 @@ public class UserService {
                         ).toList()
                 );
             }
-            return OperationResult.success(users);
+            return OperationResult.failure("Esse pátio não possui nenhum usuário.");
         } catch (Exception e) {
             return OperationResult.failure(e.getMessage());
         }
@@ -59,8 +66,9 @@ public class UserService {
             user.setLogin(request.login());
             user.setPassword(encryptedPassword);
             user.setId(id);
-            repository.save(user);
-            return OperationResult.success(user.getId());
+            User save = repository.save(user);
+            return OperationResult.success(
+                    new UserDto.Response(save.getId(), save.getLogin(), save.getRole(), true));
         }
         return OperationResult.failure("Usuário não encontrado.");
     }

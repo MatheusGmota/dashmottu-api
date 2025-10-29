@@ -1,5 +1,6 @@
 package br.com.dashmottu.repository;
 
+import br.com.dashmottu.model.entities.Patio;
 import br.com.dashmottu.model.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    List<User> findByPatio(Long idPatio);
+    List<User> findByPatio(Patio patio);
     Optional<UserDetails> findByLogin(String login) throws UsernameNotFoundException;
 }

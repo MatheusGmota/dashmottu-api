@@ -22,8 +22,8 @@ public class UserController {
     @Autowired
     UserService service;
 
-    @GetMapping()
-    public ResponseEntity<Object> getUsersByPatioId(@RequestParam("id-patio") Long idPatio) {
+    @GetMapping("/patio")
+    public ResponseEntity<Object> getUsersByPatioId(@RequestParam("id") Long idPatio) {
         try {
             OperationResult<Object> result = this.service.obterUsersPorPatio(idPatio);
             return ResponseEntity.status(result.getStatusCode())
