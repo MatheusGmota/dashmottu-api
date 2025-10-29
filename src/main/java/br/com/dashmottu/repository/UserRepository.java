@@ -6,10 +6,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    List<User> findByPatio(Long idPatio);
     Optional<UserDetails> findByLogin(String login) throws UsernameNotFoundException;
 }

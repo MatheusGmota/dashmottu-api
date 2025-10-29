@@ -20,17 +20,17 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    PatioService patioService;
-
-    @Autowired
     UserService service;
 
     @GetMapping()
-    public ResponseEntity<List<UserDto.Response>> getUsersByPatioId(@RequestParam("id-patio") Long idPatio) {
-        Patio patio = this.patioService.obterPorId(idPatio);
-        List<UserDto.Response> users = patio.getUsersDto();
-        if (users.isEmpty()) return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<Object> getUsersByPatioId(@RequestParam("id-patio") Long idPatio) {
+        try {
+            OperationResult<Object> result = this.service.obterUsersPorPatio(idPatio);
+            return ResponseEntity.status(result.getStatusCode())
+                .body((result.getErrorMessage() == null) ? result.getData() : result.getErrorMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(e.getCause());
+        }
     }
 
     @GetMapping("/{id}")

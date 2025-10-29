@@ -16,6 +16,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,6 +33,23 @@ public class UserService {
 
     @Autowired
     private PatioService patioService;
+
+    public OperationResult<Object> obterUsersPorPatio(Long idPatio) {
+
+        try {
+            List<User> users = repository.findByPatio(idPatio);
+            if (!users.isEmpty()) {
+                return OperationResult.success(
+                        users.stream().map(user ->
+                                new UserDto.Response(user.getId(), user.getLogin(), user.getRole(), true)
+                        ).toList()
+                );
+            }
+            return OperationResult.success(users);
+        } catch (Exception e) {
+            return OperationResult.failure(e.getMessage());
+        }
+    }
 
     public OperationResult<Object> editar(AuthenticationDTO request, Long id) {
         User user = repository.findById(id).orElse(null);
