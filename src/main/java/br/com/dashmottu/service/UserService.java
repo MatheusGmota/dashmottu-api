@@ -121,6 +121,6 @@ public class UserService {
             this.repository.save(newUser);
         }
 
-        return OperationResult.success(newUser, 201);
+        return OperationResult.success(new UserDto.Response(newUser.getId(), newUser.getLogin(), newUser.getRole(),true), 201);
     }
 }
