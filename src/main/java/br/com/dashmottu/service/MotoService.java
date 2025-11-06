@@ -74,6 +74,7 @@ public class MotoService {
                     moto.getPlaca(),
                     moto.getStatus()), 201);
         } catch (Exception e) {
+            if (e.getMessage().contains("ORA-00001")) return OperationResult.failure("Moto já cadastrada", 400);
             return OperationResult.failure("Erro ao salvar moto: " + e.getMessage(), 500);
         }
     }

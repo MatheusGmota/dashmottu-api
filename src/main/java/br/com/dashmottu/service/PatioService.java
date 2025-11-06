@@ -1,11 +1,14 @@
 package br.com.dashmottu.service;
 
 import br.com.dashmottu.model.OperationResult;
+import br.com.dashmottu.model.dto.MotoResponseDTO;
 import br.com.dashmottu.model.dto.PatioDTO;
 import br.com.dashmottu.model.entities.Endereco;
 import br.com.dashmottu.model.entities.Moto;
 import br.com.dashmottu.model.entities.Patio;
 import br.com.dashmottu.model.entities.User;
+import br.com.dashmottu.model.enums.ModeloMoto;
+import br.com.dashmottu.model.enums.StatusMoto;
 import br.com.dashmottu.repository.EnderecoRepository;
 import br.com.dashmottu.repository.MotoRepository;
 import br.com.dashmottu.repository.PatioRepository;
@@ -68,28 +71,26 @@ public class PatioService {
         }
     }
 
-    public OperationResult<Object> salvarMoto(Long idPatio, Long idMoto) {
+    public OperationResult<Object> salvarMoto(Long id, Long idMoto) {
         try {
-            if (!repository.existsById(idPatio) || !motoRepository.existsById(idMoto)) {
-                return OperationResult.failure("Moto ou pátio não encontrado", 404);
-            }
+            Patio patio = repository.findById(id).orElse(null);
+            if (patio == null)
+                return OperationResult.failure("Pátio não encontrado",400);
 
-            Patio patio = repository.findById(idPatio).orElse(null);
             Moto moto = motoRepository.findById(idMoto).orElse(null);
+            if (moto == null) return OperationResult.failure("Moto não encontrada",400);
 
-            if (patio == null || moto == null) {
-                return OperationResult.failure("Moto ou pátio não encontrado", 404);
-            }
 
-            // Verifica se a moto já está associada a algum pátio
-            Optional<Moto> m = motoRepository.findByPatio(patio);
-            if (m.isPresent()) return OperationResult.failure("Moto já cadastrada neste pátio");
 
-            patio.addMoto(moto);
-            motoRepository.saveAndFlush(moto);
-            Patio atualizado = repository.saveAndFlush(patio);
+            // verifica se moto ja esta adicionado no patio
+            Optional<Moto> byPatio = motoRepository.findByPatioAndId(patio, idMoto);
+            if (byPatio.isPresent()) return OperationResult.failure("Moto já cadastrada",400);
 
-            return OperationResult.success(atualizado, 201);
+            patio.addMoto(moto); //adicionando moto no contexto da lista do patio
+            repository.save(patio); // atualizando tabelas
+
+            return OperationResult.success(
+                    new MotoResponseDTO(id, idMoto, moto.getCodTag(), moto.getModelo(), moto.getPlaca(), moto.getStatus()));
 
         } catch (Exception e) {
             return OperationResult.failure("Erro ao salvar moto no pátio: " + e.getMessage(), 500);

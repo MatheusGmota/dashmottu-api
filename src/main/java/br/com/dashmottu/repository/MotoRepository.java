@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface MotoRepository extends JpaRepository<Moto, Long> {
-    Optional<Moto> findByPatio(Patio patio);
+    Optional<Moto> findByPatioAndId(Patio patio, Long idMoto);
 
     Moto findByCodTag(String codTag);
 }
