@@ -19,6 +19,7 @@ spring.datasource.password=${ORCL_PASSWORD}
 ### Opção 1 - Executando pela classe Main:
 > Execute a classe `DashmottuApplication`
 >
+> 
 > ![image](https://github.com/user-attachments/assets/67003a72-ba1f-4a61-a8d0-a58863227e34)
 
 ### Opção 2 - Executando pelo terminal:
@@ -86,3 +87,4 @@ A collection está dividida em duas seções principais:
 - Spring Boot
 - Spring Data JPA
 - Banco de dados Oracle
+
