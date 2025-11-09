@@ -80,9 +80,14 @@ A collection está dividida em duas seções principais:
 5. Liste os pátios e motos para verificar os dados
 6. Execute outras operações conforme necessário
 
+## 🔬 Plano de Testes
+1. Link para a Plataforma do Azure Boards: dev.azure.com/RM555118/DashMottu_Board
+2. Link para o vídeo dos testes automatizados: https://youtu.be/sxUYO2QKhaY
+
 ## 👨‍💻 Tecnologias Utilizadas
 - Maven
 - Java
 - Spring Boot
 - Spring Data JPA
 - Banco de dados Oracle
+
