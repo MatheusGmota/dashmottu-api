@@ -39,7 +39,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/patio/{id}/motos").hasAnyRole("USER", "ADMIN", "MASTER")
                         .requestMatchers(HttpMethod.PUT, "/api/moto/**", "/api/patio/**").hasAnyRole("USER", "ADMIN", "MASTER")
                         .requestMatchers("/api/patio/**", "/api/moto/**").hasRole("ADMIN")
-                        .requestMatchers("/api/**").hasRole("MASTER")
+                        .requestMatchers("/api/**", "/api/relatorio-banco/**").hasRole("MASTER")
 
                         .anyRequest().authenticated()
                 )
